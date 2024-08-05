@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shggc.project.fwjk.dtxx.mapper.TJcFcxxMapper">
+		<resultMap type="com.shggc.project.fwjk.dtxx.domain.TJcFcxx" id="TJcFcxxResult">
+		<result property="guid"    column="fcbh"    />
+		<result property="fwzl"    column="fwzl"    />
+		<result property="cqr"    column="cqr"    />
+		<result property="fwcqz"    column="fwcqz"    />
+		<result property="fwjsh"    column="fwjsh"    />
+		<result property="jzmjh"    column="jzmjh"    />
+		<result property="tdsyzh"    column="tdsyzh"    />
+		<result property="tdsymj"    column="tdsymj"    />
+		<result property="qlxx"    column="qlxx"    />
+		<result property="qlxz"    column="qlxz"    />
+		<result property="bz"    column="bz"    />
+		<result property="kz1"    column="kz1"    />
+	</resultMap>
+	
+	<select id="selectTJcFcxxList" parameterType="com.shggc.project.fwjk.dtxx.domain.TJcFcxx" resultMap="TJcFcxxResult">
+		
+		
+	 select  t_jc_fc.fcbh ,t_jc_fc.fwzl,t_jc_fc.cqr,t_jc_fc.fwcqz,
+      decode(t_jc_fc.fwcb, '0', '私产','1','路产','2','公产','3','教产','4','军产') as fwcb, t_jc_fc.tdsyzh,t_jc_fc.tdsymj,decode(t_jc_fc.qllx,'0','划拨',1,'出让') as qllx,decode(t_jc_fc.qlxz,'0','国有','1','集体') as qlxz,t_jc_fc.bz,t_jc_fc.kz1,temp.fwjsh, temp.jzmjh from t_jc_fc left join 
+      (select sum(fwjs) as fwjsh,sum(jzmj) as jzmjh ,fcid from t_jc_fc_fw group by fcid)  temp
+      on 
+      t_jc_fc.id=temp.fcid
+      where 
+      t_jc_fc.kz1 is not null
+		
+	</select>
+	<select id="selectTJcFcxxByBh" parameterType="String" resultMap="TJcFcxxResult">
+	 select  t_jc_fc.fcbh ,t_jc_fc.fwzl,t_jc_fc.cqr,t_jc_fc.fwcqz,
+      decode(t_jc_fc.fwcb, '0', '私产','1','路产','2','公产','3','教产','4','军产') as fwcb, t_jc_fc.tdsyzh,t_jc_fc.tdsymj,decode(t_jc_fc.qllx,'0','划拨',1,'出让') as qllx,decode(t_jc_fc.qlxz,'0','国有','1','集体') as qlxz,t_jc_fc.bz,t_jc_fc.kz1,temp.fwjsh, temp.jzmjh from t_jc_fc left join 
+      (select sum(fwjs) as fwjsh,sum(jzmj) as jzmjh ,fcid from t_jc_fc_fw group by fcid)  temp
+      on 
+      t_jc_fc.id=temp.fcid
+      where 
+      fcbh = #{bh}
+	</select>
+	<update id="changeGeo" parameterType="com.shggc.project.fwjk.dtxx.domain.TJcFcxx">
+		update t_jc_fc 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="kz1 != null">kz1 = #{kz1},</if>
+		</trim>
+		where fcbh = #{guid}
+	</update>
+	
+</mapper>

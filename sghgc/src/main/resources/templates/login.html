@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta content="width=device-width,initial-scale=0.8, minimum-scale=0.8, maximum-scale=3"
+		  name="viewport"/>
+	<meta name="renderer" content="webkit"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta property="qc:admins" content="754034015366713545637571540352652"/>
+	<meta property="wb:webmaster" content="1ad39047f32b5b6b"/>
+	<title>山海关古城房产信息可视化平台</title>
+</head>
+<link href="css/login.css" rel="stylesheet" th:href="@{/css/login/css/login.css}">
+<link href="css/iCheck/custom.css" rel="stylesheet" th:href="@{/css/login/css/iCheck/custom.css}">
+<script type="text/javascript" src="js/jquery.min.js" th:src="@{/js/login/js/jquery.min.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<body>
+<div class="blackbg"></div>
+<div class="auth_bg">
+	<img src="images/banner.jpg" alt="" th:src="@{/img/login/images/banner.jpg}">
+</div>
+<div class="headerbox">
+	<div class="header clearfix">
+		<div class="header-top-img" style="display: block;">
+			<img th:src="@{/img/login/images/logo1.png}" alt="logo">
+		</div>
+	</div>
+</div>
+<div class="auth_page_wrapper">
+	<div class="auth_login_content">
+		<div class="auth_login_left">
+		</div>
+		<div class="auth_login_right">
+			<div class="auth_tab" >
+				<div class="auth_tab_links" style="display:none;">
+					<ul>
+						<li id="accountLogin" style="width:50%;" class="selected" tabid="01"></li>
+					</ul>
+				</div>
+				<div class="clearfloat"></div>
+				<div class="auth_tab_content">
+					<div tabid="01" class="auth_tab_content_item" id="formLogin">
+						<form id="casLoginForm" class="fm-v clearfix amp-login-form" role="form" >
+
+
+							<p class="certi-box">
+								<img src="images/title-icon.png" class="login-title" th:src="@{/img/login/images/title-icon.png}">
+							</p>
+
+							<p class="auth_inputi_bg">
+								<i class="auth_icon auth_icon_user"></i>
+								<input id="username" name="username" placeholder="用户名" class="auth_input" type="text" v-model="username"/>
+								<span id="usernameError" style="display:none;" class="auth_error">请输入用户名</span>
+							</p>
+
+							<p class="auth_inputi_bg">
+								<i class="auth_icon auth_icon_pwd"></i>
+								<input id="password" name="password" placeholder="密码" class="auth_input" type="password" v-model="password"/>
+								<span id="passwordError" style="display:none;" class="auth_error">请输入密码</span>
+							</p>
+
+							<p id="cpatchaDiv">
+
+							</p>
+
+							<p class="loginbox">
+								<a class="auth_login_btn primary full_width" @click="login()">登录
+								</a>
+							</p>
+							<input type="hidden" id="pwdDefaultEncryptSalt" value="fmJbf0BFEZrGMCkD"/>
+							<input type="hidden" name="rememberMe" value="false"/>
+
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("body").click(function () {
+				showLogin();
+				$("body").unbind();
+			});
+		});
+		//当用户点击鼠标后显示登录界面
+
+		function showLogin(){
+			//setTimeout(function(){
+			$(".blackbg").addClass("blackbg_active");
+			$(".auth_bg").addClass("blur");
+			$(".header-top-img").hide();
+			$(".auth_login_footer").hide();
+			$(".tap-nav").show();
+			$("#casLoginForm").addClass("auth_login_top_fixed");
+			$("#casLoginForm").fadeToggle(1000);
+			//},1000);
+
+		}
+		var login = new Vue(
+				{
+					el:'#formLogin',
+					data: {
+						username: "admin",
+						password: "admin123"
+					},
+					mounted: function(){
+
+					},
+					methods: {
+						login(){
+							var param = new URLSearchParams();
+							param.append("username" , this.username);
+							param.append("password" , this.password);
+							param.append("rememberMe" , "false");
+							axios.post('/login', param)
+									.then(function (response) {
+										if(response.data.code == 0){
+											window.location.href="/index";
+										}
+									})
+									.catch(function (error) {
+										console.log(error);
+									});
+						}
+					}
+				}
+		);
+	</script>
+</body>
+</html>

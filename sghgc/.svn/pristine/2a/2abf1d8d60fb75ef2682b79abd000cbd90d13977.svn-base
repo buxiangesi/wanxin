@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增片区')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-pq-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">片区编号：</label>
+                <div class="col-sm-8">
+                    <input id="pqbh" name="pqbh" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">片区名称：</label>
+                <div class="col-sm-8">
+                    <input id="pqmc" name="pqmc" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">注销标志：</label>
+                <div class="col-sm-8">
+                    <select name="zxbz" class="form-control m-b" th:with="type=${@dict.getType('t_jc_zxzt')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input name="bz" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "jcxx/pq"
+        $("#form-pq-add").validate({
+        	//数据校验
+         	onkeyup: false,
+        	rules:{
+        		pqbh:{
+	       			minlength: 2,
+	       			maxlength: 20,
+	       			digits:true,
+	       			remote: {
+		                url: prefix + "/checkPqbhUnique",
+		                type: "post",
+		                dataType: "json",
+	                    data: {
+	                    	"id": function() {
+	                         	return $("#id").val();
+	                     	},
+	                    	"pqbh": function() {	          
+	                            return $.common.trim($("#pqbh").val());
+	                        }
+	                    },
+	                    dataFilter: function(data, type) {
+	                    	return $.validate.unique(data);
+	                    }
+	               	}
+       			},
+       			pqmc:{
+	       			remote: {
+		                url: prefix + "/checkPqmcUnique",
+		                type: "post",
+		                dataType: "json",
+	                    data: {
+	                    	"id": function() {
+	                         	return $("#id").val();
+	                     	},
+	                    	"pqmc": function() {
+	                            return $.common.trim($("#pqmc").val());
+	                        }
+	                    },
+	                    dataFilter: function(data, type) {
+	                    	return $.validate.unique(data);
+	                    }
+	               	}
+       			}
+        	},
+        	messages: {
+	            "pqbh": {
+	                remote: "片区编号已经存在！"
+	            },
+	            "pqmc": {
+	                remote: "片区名称已经存在！"
+	            }
+            },
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-pq-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

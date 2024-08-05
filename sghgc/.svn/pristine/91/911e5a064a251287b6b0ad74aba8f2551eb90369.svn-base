@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shggc.project.jcxx.pq.mapper.TJcPqMapper">
+
+	<resultMap type="com.shggc.project.jcxx.pq.domain.TJcPq" id="TJcPqResult">
+		<id property="id"    column="id"    />
+		<result property="pqbh"    column="pqbh"    />
+		<result property="pqmc"    column="pqmc"    />
+		<result property="zxbz"    column="zxbz"    />
+		<result property="bz"    column="bz"    />
+		<result property="kz1"    column="kz1"    />
+		<result property="kz2"    column="kz2"    />
+	</resultMap>
+	
+	<resultMap type="com.shggc.project.jcxx.pq.domain.TJcPq" id="TJcPqResult2">
+		<id property="id"    column="id"    />
+		<result property="pqmc"    column="pqmc"    />
+		<collection property="tJcPqJds" ofType="com.shggc.project.jcxx.pqjd.domain.TJcPqJd">
+			<id property="id" column="jdid"/>
+			<result property="jdmc" column="jdmc"/>
+		</collection>
+	</resultMap>
+
+	<sql id="selectTJcPqVo">
+		select id, pqbh, pqmc, zxbz, bz, kz1, kz2 from t_jc_pq
+	</sql>
+
+	<select id="selectTJcPqList" parameterType="com.shggc.project.jcxx.pq.domain.TJcPq" resultMap="TJcPqResult">
+		<include refid="selectTJcPqVo"/>
+		<where>
+			<if test="pqbh != null  and pqbh != ''"> and pqbh like concat(concat('%', #{pqbh}), '%')</if>
+			<if test="pqmc != null  and pqmc != ''"> and pqmc like concat(concat('%', #{pqmc}), '%')</if>
+			<if test="zxbz != null  and zxbz != ''"> and zxbz = #{zxbz}</if>
+		</where>
+	</select>
+	
+	<select id="selectPqJdTree" resultMap="TJcPqResult2">
+		select t_jc_pq.id as id, 
+			 t_jc_pq.pqmc as pqmc, 
+			 t_jc_pq_jd.id as jdid,
+			 t_jc_pq_jd.jdmc as jdmc
+		 from t_jc_pq left join t_jc_pq_jd on t_jc_pq.id = t_jc_pq_jd.pqid
+		where t_jc_pq.zxbz = '0' and t_jc_pq_jd.zxbz = '0'
+	</select>
+	
+	<select id="selectTJcPqAll" resultMap="TJcPqResult">
+		<include refid="selectTJcPqVo"/>
+		where zxbz = '0'
+		order by pqmc asc
+	</select>
+
+	<select id="selectTJcPqById" parameterType="java.lang.String" resultMap="TJcPqResult">
+		<include refid="selectTJcPqVo"/>
+		where id = #{id}
+	</select>
+
+	<insert id="insertTJcPq" parameterType="com.shggc.project.jcxx.pq.domain.TJcPq">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+			SELECT seq_id.NEXTVAL as id FROM DUAL
+		</selectKey>
+		insert into t_jc_pq
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="pqbh != null">pqbh,</if>
+			<if test="pqmc != null">pqmc,</if>
+			<if test="zxbz != null">zxbz,</if>
+			<if test="bz != null">bz,</if>
+			<if test="kz1 != null">kz1,</if>
+			<if test="kz2 != null">kz2,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="pqbh != null">#{pqbh},</if>
+			<if test="pqmc != null">#{pqmc},</if>
+			<if test="zxbz != null">#{zxbz},</if>
+			<if test="bz != null">#{bz},</if>
+			<if test="kz1 != null">#{kz1},</if>
+			<if test="kz2 != null">#{kz2},</if>
+		</trim>
+	</insert>
+
+	<update id="updateTJcPq" parameterType="com.shggc.project.jcxx.pq.domain.TJcPq">
+		update t_jc_pq
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="pqbh != null">pqbh = #{pqbh},</if>
+			<if test="pqmc != null">pqmc = #{pqmc},</if>
+			<if test="zxbz != null">zxbz = #{zxbz},</if>
+			<if test="bz != null">bz = #{bz},</if>
+			<if test="kz1 != null">kz1 = #{kz1},</if>
+			<if test="kz2 != null">kz2 = #{kz2},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteTJcPqById" parameterType="com.shggc.project.jcxx.pq.domain.TJcPq">
+        delete from t_jc_pq where id = #{id}
+    </delete>
+
+	<delete id="deleteTJcPqByIds" parameterType="java.lang.String">
+		delete from t_jc_pq where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="checkPqbhUnique" parameterType="java.util.Map" resultType="int">
+		select count(1) from t_jc_pq where id != #{id} and pqbh=#{pqbh} and rownum <![CDATA[ <= ]]> 1
+	</select>
+	
+	<select id="checkPqmcUnique" parameterType="java.util.Map" resultType="int">
+		select count(1) from t_jc_pq where id != #{id} and pqmc=#{pqmc} and rownum <![CDATA[ <= ]]> 1
+	</select>
+</mapper>

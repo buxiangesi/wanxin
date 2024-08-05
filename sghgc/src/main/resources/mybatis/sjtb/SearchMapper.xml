@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shggc.project.sjtb.search.mapper.SearchMapper">
+
+	<resultMap type="com.shggc.project.sjtb.search.domain.DtoFormWzChildren" id="DtoFormWzChildrenResult">
+		<result property="id"    column="pqid"/>
+		<result property="title"    column="pqmc"/>
+		<collection property="children" ofType="com.shggc.project.sjtb.search.domain.DtoFormWzChildren">
+			<result property="id"    column="jdid"/>
+			<result property="title"    column="jdmc"/>
+		</collection>
+	</resultMap>
+
+
+	<select id="selectDtoFormWzChildrenList" resultMap="DtoFormWzChildrenResult">
+		select pq.id as pqid, pqmc, jd.id as jdid, jdmc from t_jc_pq pq, t_jc_pq_jd jd where pq.id=jd.pqid
+	</select>
+
+	<select id="selectFwtjlb" resultType="java.util.HashMap">
+		select decode(fwcb, '0','私产','1','路产','2','公产','3','教产','4','军产') as fwcb, count(id) as fcsl from t_jc_fc
+		<where>
+			<if test="jds != null and jds.size > 0"> 
+				and jdid in
+				<foreach item="jd" collection="jds" open="(" separator="," close=")">
+					#{jd}
+				</foreach>
+			</if>
+			<if test="jds != null and jds.size == 0">and jdid in null</if>
+			<if test="xz != null  and xz != ''"> and qlxz = #{xz}</if>
+			<if test="lx != null  and lx != ''"> and qllx = #{lx}</if>
+			<if test="cb != null  and cb != ''"> and fwcb = #{cb}</if>
+		</where>
+        group by fwcb
+	</select>
+	
+	<select id="selectJzmj" resultType="java.lang.Double">
+		select sum(jzmj) as jzmj from 
+		(select jdid, jzmj from t_jc_fc fc, t_jc_fc_fw fw
+		<where>
+			fc.id=fw.fcid
+			<if test="jds != null and jds.size > 0">  
+				and jdid in
+				<foreach item="jd" collection="jds" open="(" separator="," close=")">
+					#{jd}
+				</foreach>
+			</if>
+			<if test="jds != null and jds.size == 0">and jdid in null</if>
+			<if test="xz != null  and xz != ''"> and qlxz = #{xz}</if>
+			<if test="lx != null  and lx != ''"> and qllx = #{lx}</if>
+			<if test="cb != null  and cb != ''"> and fwcb = #{cb}</if>
+		</where>
+		) x
+	</select>
+	
+	<select id="selectQllx" resultType="java.util.HashMap">
+		select decode(qllx, '0', '划拨','1','出让') as qllx, count(id) as fcsl from t_jc_fc 
+		<where>
+			<if test="jds != null and jds.size > 0"> 
+				and jdid in
+				<foreach item="jd" collection="jds" open="(" separator="," close=")">
+					#{jd}
+				</foreach>
+			</if>
+			<if test="jds != null and jds.size == 0">and jdid in null</if>
+			<if test="xz != null  and xz != ''"> and qlxz = #{xz}</if>
+			<if test="lx != null  and lx != ''"> and qllx = #{lx}</if>
+			<if test="cb != null  and cb != ''"> and fwcb = #{cb}</if>
+		</where>
+		group by qllx
+	</select>
+	
+	<select id="selectFcs" resultType="java.lang.Double">
+		select count(id) as fcs from t_jc_fc
+		<where>
+			<if test="jds != null and jds.size > 0"> 
+				and jdid in
+				<foreach item="jd" collection="jds" open="(" separator="," close=")">
+					#{jd}
+				</foreach>
+			</if>
+			<if test="jds != null and jds.size == 0">and jdid in null</if>
+			<if test="xz != null  and xz != ''"> and qlxz = #{xz}</if>
+			<if test="lx != null  and lx != ''"> and qllx = #{lx}</if>
+			<if test="cb != null  and cb != ''"> and fwcb = #{cb}</if>
+		</where>
+	</select>
+	
+	<select id="selectCqrs" resultType="java.lang.Double">
+		select count(cqr) as cqrs from t_jc_fc
+		<where>
+			<if test="jds != null and jds.size > 0">  
+				and jdid in
+				<foreach item="jd" collection="jds" open="(" separator="," close=")">
+					#{jd}
+				</foreach>
+			</if>
+			<if test="jds != null and jds.size == 0">and jdid in null</if>
+			<if test="xz != null  and xz != ''"> and qlxz = #{xz}</if>
+			<if test="lx != null  and lx != ''"> and qllx = #{lx}</if>
+			<if test="cb != null  and cb != ''"> and fwcb = #{cb}</if>
+		</where>
+	</select>
+	
+	<select id="selectJzrs" resultType="java.lang.Double">
+		select count(jzr) as jzrs from t_jc_fc
+		<where>
+			<if test="jds != null and jds.size > 0">  
+				and jdid in
+				<foreach item="jd" collection="jds" open="(" separator="," close=")">
+					#{jd}
+				</foreach>
+			</if>
+			<if test="jds != null and jds.size == 0">and jdid in null</if>
+			<if test="xz != null  and xz != ''"> and qlxz = #{xz}</if>
+			<if test="lx != null  and lx != ''"> and qllx = #{lx}</if>
+			<if test="cb != null  and cb != ''"> and fwcb = #{cb}</if>
+		</where>
+	</select>
+	
+	<select id="selectFjs" resultType="java.lang.Double">
+		select sum(fwjs) as jzmj from 
+		(select jdid, fwjs from t_jc_fc fc, t_jc_fc_fw fw
+		<where>
+			fc.id=fw.fcid
+			<if test="jds != null and jds.size > 0">  
+				and jdid in
+				<foreach item="jd" collection="jds" open="(" separator="," close=")">
+					#{jd}
+				</foreach>
+			</if>
+			<if test="jds != null and jds.size == 0">and jdid in null</if>
+			<if test="xz != null  and xz != ''"> and qlxz = #{xz}</if>
+			<if test="lx != null  and lx != ''"> and qllx = #{lx}</if>
+			<if test="cb != null  and cb != ''"> and fwcb = #{cb}</if>
+		</where>
+		) x
+	</select>
+	
+	<select id="selectTdsymj" resultType="java.lang.Double">
+		select sum(tdsymj) from t_jc_fc
+		<where>
+			<if test="jds != null and jds.size > 0">  
+				and jdid in
+				<foreach item="jd" collection="jds" open="(" separator="," close=")">
+					#{jd}
+				</foreach>
+			</if>
+			<if test="jds != null and jds.size == 0">and jdid in null</if>
+			<if test="xz != null  and xz != ''"> and qlxz = #{xz}</if>
+			<if test="lx != null  and lx != ''"> and qllx = #{lx}</if>
+			<if test="cb != null  and cb != ''"> and fwcb = #{cb}</if>
+		</where>
+	</select>
+	
+	<select id="selectQlxz" resultType="java.util.HashMap">
+		select decode(qlxz, '0', '国有','1','集体') as qlxz, count(id) as fcsl from t_jc_fc 
+		<where>
+			<if test="jds != null and jds.size > 0">  
+				and jdid in
+				<foreach item="jd" collection="jds" open="(" separator="," close=")">
+					#{jd}
+				</foreach>
+			</if>
+			<if test="jds != null and jds.size == 0">and jdid in null</if>
+			<if test="xz != null  and xz != ''"> and qlxz = #{xz}</if>
+			<if test="lx != null  and lx != ''"> and qllx = #{lx}</if>
+			<if test="cb != null  and cb != ''"> and fwcb = #{cb}</if>
+		</where>
+		group by qlxz
+	</select>
+</mapper>

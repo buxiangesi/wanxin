@@ -1,0 +1,1485 @@
+/* iCheck plugin Square skin, green
+----------------------------------- */
+.blur {    
+    -webkit-filter: blur(8px);
+       -moz-filter: blur(8px);
+        -ms-filter: blur(8px);    
+            filter: blur(8px);    
+}
+
+.icheckbox_square-green,
+.iradio_square-green {
+    display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    background: url(green.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.icheckbox_square-green {
+    background-position: 0 0;
+}
+.icheckbox_square-green.hover {
+    background-position: -24px 0;
+}
+.icheckbox_square-green.checked {
+    background-position: -48px 0;
+}
+.icheckbox_square-green.disabled {
+    background-position: -72px 0;
+    cursor: default;
+}
+.icheckbox_square-green.checked.disabled {
+    background-position: -96px 0;
+}
+
+.iradio_square-green {
+    background-position: -120px 0;
+}
+.iradio_square-green.hover {
+    background-position: -144px 0;
+}
+.iradio_square-green.checked {
+    background-position: -168px 0;
+}
+.iradio_square-green.disabled {
+    background-position: -192px 0;
+    cursor: default;
+}
+.iradio_square-green.checked.disabled {
+    background-position: -216px 0;
+}
+
+/* HiDPI support */
+@media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+    .icheckbox_square-green,
+    .iradio_square-green {
+        background-image: url(green@2x.png);
+        -webkit-background-size: 240px 24px;
+        background-size: 240px 24px;
+    }
+}
+
+/*********************************************************************************************
+20171204  header
+*********************************************************************************************/
+*{
+	font-family:"Microsoft YaHei";
+}
+body{
+	margin:0;
+	/*background-image:url(../../images/background-body.png);*/
+}
+
+.header .header-top-img img {
+    width: 600px;
+    padding-top: 20px;
+	padding-left:60px;
+    float: left;
+}
+.clearfix{
+	clear:both;
+}
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: #fff;
+}
+.header .tap-nav a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #fff;
+}
+.tap-nav  {
+	float: right;
+    margin-right: 100px;
+	margin-top: 55px;
+}
+.tap-nav li {
+	float: left;
+}
+.campus-icon{
+	width: 40px;
+    height: 40px;
+    top: 42px;
+    right: 170px;
+    position: fixed;
+}
+.auth-language { 
+    margin-top: 48px;
+	color: #fff;
+}
+.blackbg_active {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+
+
+
+/*********************************************************************************************
+20171204  banner
+*********************************************************************************************/
+.auth_bg {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: -1;
+}
+.auth_bg img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    min-width: 50%;
+    min-height: 50%;
+}
+.auth_page_wrapper { 
+    margin: 0px auto;
+}
+.auth_login_footer {
+    width: 100%; 
+    text-align: center;
+	font-family: "Microsoft YaHei";
+	color:#fff;
+    font-size: 14px;
+	position: fixed;
+    bottom: 60px;
+	line-height: 20px;
+}
+
+
+
+/*********************************************************************************************
+20171204  form
+*********************************************************************************************/
+input::-webkit-input-placeholder{
+            color:#fff;
+        }
+        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#fff;
+        }
+        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#fff;
+        }
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#fff;
+        }
+.login-title{
+	width:300px;
+}
+.dynamicCode:hover{
+	color:#fff;
+}
+.login-prompt{
+	cursor:pointer;
+}
+.auth_tab_content_item p {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+.certi-box{
+	text-align:center;
+	width: 434px;
+}
+.auth_tab{
+	width:434px;
+	margin:0 auto;
+	margin-top: 200px;
+}
+.auth_tab_links li.selected {
+    width: 0px;
+    height: 0px;
+}
+.auth_input {
+    color: #fff;
+    border: 0;
+    margin: 0;
+	padding:0;
+	font-size: 21px;
+    width: 348px;
+    line-height: 62px;
+    height: 62px;
+    text-align: center;
+	background-color: rgba(255, 255, 255,.0);
+	
+}
+.auth_icon {
+    border: none;
+    width: 60px;
+    height: 64px;
+    float: left;
+}
+/*#cpatchaDiv{
+	border-radius: 13px;
+    background-color: rgba(255, 255, 255,.3);
+    width: 200px;
+    height: 64px;
+}*/
+#cpatchaDiv .auth_input_ver {
+    border-radius: 0 13px 13px 0;
+	background-color: rgba(255, 255, 255,.3);
+	width: 200px;
+}
+#cpatchaDiv .vercode-img {
+    width: 92px;
+    height: 32px;
+    margin-left: 3px;
+    vertical-align: top;
+}
+#cpatchaDiv .auth_icon_ver{
+	background: url(../../images/code.png) 21px center no-repeat;
+	background-color: rgba(255, 255, 255,.3);
+	border-radius: 13px 0 0 13px;
+}
+.auth_icon_user {
+    background: url(../../images/user1.png) 21px center no-repeat;
+}
+.auth_icon_pwd{
+	background: url(../../images/password1.png) 26px center no-repeat;
+}
+.auth_inputi_bg{
+	border-radius: 13px;
+	background-color: rgba(255, 255, 255,.3);
+	width: 434px;
+    height: 64px;
+}
+.clickbox{
+	width: 434px;
+	color: #fff;
+}
+.auth_login_forgetp small {
+    font-size: 18px;
+    color: #fff;
+}
+.auth_tab_content_item p label {
+    font-size: 18px;
+    margin-left: 5px;
+}
+.auth_error {
+    position: absolute;
+    color: #E60012;
+    font-size: 14px;
+  	top: 38px;
+    left: 36px;
+}
+.auth_login_forgetp {
+    text-decoration: none;
+    /* color: #676a6c; */
+    color: #666;
+    font-size: 12px;
+	/*float:right;*/
+	text-align:right;
+	display:block;
+}
+.loginbox{
+	width: 434px;
+    text-align: center;
+}
+.other-box{
+	width: 434px;
+}
+.auth_login_btn {
+    color: #fff;
+    font-size: 21px;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 13px;
+    text-decoration: none;
+    border: none;
+    width:225px;
+    height: 60px;
+	background-color: #0F8FDF;
+	display: inline-block;
+	line-height:60px;
+	letter-spacing:5PX;
+	cursor:pointer;
+}
+
+.login-prompt{
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	color:#0F8FDF;
+	margin-bottom:6px;
+	margin-top:-16px;
+	text-align:center;
+	width: 434px;
+	margin-left: 5px;
+}
+.login-prompt-content{
+	font-size: 16px;
+    font-family: "Microsoft YaHei";
+    line-height: 1.5;
+	display: block;
+	color: #0F8FDF;
+}
+.other-login-methods{
+	font-size: 14px;
+	font-family: "Microsoft YaHei";
+	color:#fff;	
+	float:left;
+}
+.qq-login,.wx-login,.phone-login,.certificates-login{
+	width: 52px;
+    height: 52px;
+    display: inline-block;
+	margin-left: 8px;
+}
+.qq-login{
+	background: url(../../images/qq.png);
+	background-repeat:no-repeat;	
+}
+.wx-login{
+	background: url(../../images/wx.png);
+	background-repeat:no-repeat;	
+}
+.phone-login{
+	background: url(../../images/phone.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;	
+	margin-left: 80px;
+}
+.certificates-login{
+	background: url(../../images/certificates.png);
+	background-repeat:no-repeat;	
+	margin-left: 80px;
+}
+.footer_copyright{
+	padding-top:4px;
+}
+.phone-login-box{
+	border-radius: 13px;
+	background-color: rgba(255, 255, 255,.3);
+	width: 360px;
+    height: 64px;
+}
+.certi-icon{
+    background: url(../../images/verification.png) 16px center no-repeat;
+}
+.phone-login-box .warning{
+	background-color: transparent;
+}
+.phone-login-box .abs_right {
+    right: -180px;
+    top: -24px;
+}
+
+
+
+/*********************************************************************************************
+20171205 响应式
+*********************************************************************************************/
+.auth_page_switch_wrapper {
+	background-repeat:no-repeat;
+	background-size:100%;
+	position:relative;
+}
+@media screen and (min-width: 768px) {
+	/*.auth_login_top_fixed{
+		margin-top:180px;
+	}*/
+	.mobile-login-title{
+		width: 40px;
+	}
+	.qq-login, .wx-login, .phone-login, .certificates-login {
+		margin-left: 0px;
+		transform: scale(0.8);
+	}
+	.phone-login {
+		margin-left: 10px;
+	}
+	.phone-login-box {
+		width: 160px;
+		height: 40px;
+	}
+	.phone-login-box .abs_right {
+		right: -180px;
+		top: -3px;
+	}
+	.auth_tab {
+		width: 300px;
+		margin: 0 auto;
+	}
+	.auth_bg img {
+		width: 50%;
+	}
+	.login-title{
+		width: 200px;
+	}
+	.auth_login_top_fixed{
+		margin-top:180px;
+	}
+	.certi-box {
+		text-align: center;
+		width: 300px;
+	}
+	.clickbox {
+		width: 300px;
+		color: #fff;
+	}
+	.auth_inputi_bg {
+		border-radius: 13px;
+		width: 300px;
+		height: 40px;
+	}
+	.auth_input {
+		font-size: 15px;
+		width: 180px;
+		line-height: 40px;
+		text-indent: 0px;
+		height: 40px;
+	}
+	.auth_icon {
+		border: none;
+		width: 60px;
+		height: 40px;
+   	}
+	#cpatchaDiv .vercode-img {
+		width: 70px;
+		height: 40px;
+	}
+	#cpatchaDiv .auth_input_ver {
+		width: 120px;
+	}
+	#cpatchaDiv .auth_icon_ver {
+		background: url(../../images/code.png) 15px center no-repeat;
+		background-color: rgba(255, 255, 255,.3);
+	}
+    .auth_icon_user {
+		background: url(../../images/user1.png) 16px no-repeat;
+	}
+	.certi-icon{
+		background: url(../../images/verification.png) 14px center no-repeat;
+	}
+	.auth_tab_content_item p label {
+		font-size: 14px;
+		margin-left: 5px;
+	}
+	.auth_login_forgetp small {
+		font-size: 14px;
+		color: #fff;
+	}
+	.auth_login_btn{
+		height: 40px;
+		width: 180px;
+		display: inline-block;
+		line-height:40px;
+		letter-spacing:5PX;
+		cursor:pointer;
+	}
+	.loginbox {
+		width: 300px;
+		text-align: center;
+	}
+	.other-box {
+		width: 300px;
+	}
+	.login-prompt-content {
+		font-size: 13px;
+		line-height: 1.4;
+	}
+	.login-prompt{
+		font-size:13px;
+		margin-bottom:6px;
+		margin-top: -10px;
+		width: 300px;
+	}
+	.other-login-box{
+		position: fixed;
+		bottom: 50px;
+	}
+	.auth_login_footer p {
+		font-size:10px;
+	}
+	.footer_copyright{
+		padding-top:4px;
+	}
+	.auth_error {
+		font-size: 11px;
+		top:40px;
+  	}
+	.header .header-top-img img {
+   	 	width: 300px;
+   	 	padding-top: 30px;
+		padding-left:30px;
+	}
+	.header .tap-nav {
+   	 	margin-top: 20px;
+	}
+}
+
+@media screen and (min-width: 800px) {
+	.campus-icon {
+		width: 40px;
+		height: 40px;
+		top: 12px;
+		right: 170px;
+		position: fixed;
+	}
+	.auth_login_top_fixed{
+		margin-top:180px;
+	}
+	.mobile-login-title{
+		width:30px;
+	}
+	.phone-login-box {
+		width: 130px;
+		height: 32px;
+	}
+	.certi-icon {
+		background: url(../../images/verification.png) 16px center no-repeat;
+	}
+	.certificates-login {
+		margin-left: 0px;
+	}
+	.phone-login-box .abs_right {
+		right: -130px;
+		top: -8px;
+	}
+	.auth_bg img {
+		width: 50%;
+	}
+	.certi-box {
+		text-align: center;
+		width: 220px;
+		margin-bottom: 30px;
+	}
+	.auth_tab {
+		width: 220px;
+		margin: 0 auto;
+	}
+	.clickbox {
+		width: 220px;
+		color: #fff;
+	}
+	.auth_tab_content_item p label {
+		font-size: 12px;
+		margin-left: 5px;
+	}
+	.auth_login_forgetp small {
+		font-size: 12px;
+		color: #fff;
+	}
+	.loginbox {
+		width: 220px;
+		text-align: center;
+	}
+	.login-title{
+		width: 200px;
+		margin-top:24px;
+	}
+	.auth_input {
+		font-size: 12px;
+		width: 160px;
+		line-height: 30px;
+		text-indent: 0px;
+		height: 30px;
+	}
+	.auth_icon {
+		border: none;
+		width: 30px;
+		height: 30px;
+    	}
+    	.auth_icon_user {
+		background: url(../../images/user1.png) 9px no-repeat;
+		background-size: 50%;
+	}
+	.auth_icon_pwd{
+		background: url(../../images/password1.png) 10px no-repeat;
+		background-size: 40%;
+	}
+	#cpatchaDiv .auth_icon_ver {
+		background: url(../../images/code.png) 10px center no-repeat;
+		background-color: rgba(255, 255, 255,.3);
+		border-radius: 13px 0 0 13px;
+		background-size: 50%;
+	}
+	#cpatchaDiv .auth_input_ver {
+		border-radius: 0 13px 13px 0;
+		background-color: rgba(255, 255, 255,.3);
+		width: 80px;
+	}
+	#cpatchaDiv .vercode-img {
+		width: 70px;
+		height: 30px;
+	}
+	.auth_login_btn{
+		height: 30px;
+		line-height: 30px;
+		font-size:12px;
+		width:120px;
+		letter-spacing:5PX;
+		cursor:pointer;
+	}
+	.other-box {
+		width: 260px;
+	}
+	.login-prompt-content {
+		font-size: 12px;
+		line-height: 1.6;
+	}
+	.login-prompt{
+		font-size: 12px;
+		margin-bottom: 6px;
+		width: 220px;
+	}
+	.auth_login_footer p {
+		font-size:10px;
+	}
+	.auth_error {
+   	 	font-size: 11px;
+  		top:36px;
+  	}
+	.header .header-top-img img {
+		width: 560px;
+		padding-top: 30px;
+		padding-left: 70px;
+
+	}
+	.footer_copyright {
+    		padding-top: 4px;
+	}
+	.auth_inputi_bg {
+		width: 220px;
+		height: 30px;
+		margin-bottom: 26px;
+	}
+	.phone-login {
+		margin-left: 10px;
+	}
+	.other-login-box{
+		margin-top:10px;
+		width:300px;
+	}
+	.qq-login,.wx-login,.phone-login,.certificates-login{
+		transform:scale(0.7);
+		margin-left:0px;
+	}
+	.header .top-nav a{
+		font-size:12px;
+	}
+	.top-nav{
+		margin-top:20px;
+		margin-right:30px;
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	.campus-icon {
+		width: 40px;
+		height: 40px;
+		top: 12px;
+		right: 170px;
+		position: fixed;
+	}
+	.header .top-nav a{
+		font-size:13px;
+	}
+	.top-nav{
+		margin-top:20px;
+		margin-right:30px;
+	}
+	.auth_login_top_fixed{
+		margin-top:180px;
+	}
+	.mobile-login-title{
+		width: 50px;
+	}
+	.phone-login-box {
+		width: 160px;
+		height: 36px;
+	}
+	.certi-icon {
+		background: url(../../images/verification.png) 16px center no-repeat;
+	}
+	.certificates-login {
+		margin-left: 10px;
+	}
+	.phone-login-box .abs_right {
+		right: -130px;
+		top: -8px;
+	}
+	.auth_bg img {
+		width: 50%;
+	}
+	.certi-box {
+		text-align: center;
+		width: 260px;
+		margin-bottom: 30px;
+	}
+	.auth_tab {
+		width: 260px;
+		margin: 0 auto;
+	}
+	.clickbox {
+		width: 260px;
+		color: #fff;
+	}
+	.auth_tab_content_item p label {
+		font-size: 14px;
+		margin-left: 5px;
+	}
+	.auth_login_forgetp small {
+		font-size: 14px;
+		color: #fff;
+	}
+	.loginbox {
+		width: 260px;
+		text-align: center;
+	}
+	.login-title{
+		width: 200px;
+		margin-top:24px;
+	}
+	.auth_input {
+		font-size: 13px;
+		width: 140px;
+		line-height: 36px;
+		text-indent: 0px;
+		height: 36px;
+	}
+	.auth_icon {
+		border: none;
+		width: 60px;
+		height: 36px;
+    	}
+    	.auth_icon_user {
+		background: url(../../images/user1.png) 20px no-repeat;
+		background-size: 37%;
+	}
+	.auth_icon_pwd{
+		background: url(../../images/password1.png) 23px no-repeat;
+		background-size: 28%;
+	}
+	#cpatchaDiv .auth_icon_ver {
+		background: url(../../images/code.png) 21px center no-repeat;
+		background-color: rgba(255, 255, 255,.3);
+		border-radius: 13px 0 0 13px;
+		background-size: 34%;
+	}
+	#cpatchaDiv .auth_input_ver {
+		border-radius: 0 13px 13px 0;
+		background-color: rgba(255, 255, 255,.3);
+		width: 80px;
+	}
+	#cpatchaDiv .vercode-img {
+		width: 70px;
+		height: 36px;
+	}
+	.auth_login_btn{
+		height: 36px;
+		line-height: 36px;
+		font-size:14px;
+		width:140px;
+		letter-spacing:5PX;
+		cursor:pointer;
+	}
+	.other-box {
+		width: 260px;
+	}
+	.login-prompt-content {
+		font-size: 13px;
+		line-height: 1.4;
+	}
+	.login-prompt{
+		font-size: 14px;
+		margin-bottom: 6px;
+		width: 260px;
+	}
+	.auth_login_footer p {
+		font-size:10px;
+	}
+	.auth_error {
+   	 	font-size: 11px;
+  		top:36px;
+  	}
+	.header .header-top-img img {
+		width: 560px;
+		padding-top: 30px;
+		padding-left: 70px;
+
+	}
+	.footer_copyright {
+    		padding-top: 4px;
+	}
+	.auth_inputi_bg {
+		width: 260px;
+		height: 36px;
+		margin-bottom: 26px;
+	}
+	.phone-login {
+		margin-left: 10px;
+	}
+	.other-login-box{
+		margin-top:10px;
+		width:300px;
+	}
+	.qq-login,.wx-login,.phone-login,.certificates-login{
+		transform:scale(0.8);
+	}
+
+}
+
+@media screen and (min-width: 1280px) {
+	.campus-icon {
+		width: 40px;
+		height: 40px;
+		top: 12px;
+		right: 170px;
+		position: fixed;
+	}
+	.auth_login_top_fixed{
+		margin-top:180px;
+	}
+	.mobile-login-title{
+		width: 50px;
+	}
+	.phone-login-box {
+		width: 160px;
+		height: 36px;
+	}
+	.certi-icon {
+		background: url(../../images/verification.png) 16px center no-repeat;
+	}
+	.certificates-login {
+		margin-left: 10px;
+	}
+	.phone-login-box .abs_right {
+		right: -130px;
+		top: -8px;
+	}
+	.auth_bg img {
+		width: 50%;
+	}
+	.certi-box {
+		text-align: center;
+		width: 260px;
+		margin-bottom: 30px;
+	}
+	.auth_tab {
+		width: 260px;
+		margin: 0 auto;
+	}
+	.clickbox {
+		width: 260px;
+		color: #fff;
+	}
+	.auth_tab_content_item p label {
+		font-size: 14px;
+		margin-left: 5px;
+	}
+	.auth_login_forgetp small {
+		font-size: 14px;
+		color: #fff;
+	}
+	.loginbox {
+		width: 260px;
+		text-align: center;
+	}
+	.login-title{
+		width: 200px;
+		margin-top:24px;
+	}
+	.auth_input {
+		font-size: 13px;
+		width: 140px;
+		line-height: 36px;
+		text-indent: 0px;
+		height: 36px;
+	}
+	.auth_icon {
+		border: none;
+		width: 60px;
+		height: 36px;
+    }
+    .auth_icon_user {
+		background: url(../../images/user1.png) 20px no-repeat;
+		background-size: 37%;
+	}
+	.auth_icon_pwd{
+		background: url(../../images/password1.png) 23px no-repeat;
+		background-size: 28%;
+	}
+	#cpatchaDiv .auth_icon_ver {
+		background: url(../../images/code.png) 21px center no-repeat;
+		background-color: rgba(255, 255, 255,.3);
+		border-radius: 13px 0 0 13px;
+		background-size: 34%;
+	}
+	#cpatchaDiv .auth_input_ver {
+		border-radius: 0 13px 13px 0;
+		background-color: rgba(255, 255, 255,.3);
+		width: 80px;
+	}
+	#cpatchaDiv .vercode-img {
+		width: 70px;
+		height: 36px;
+	}
+	.auth_login_btn{
+		height: 36px;
+		line-height: 36px;
+		font-size:14px;
+		width:140px;
+		letter-spacing:5PX;
+		cursor:pointer;
+	}
+	.other-box {
+		width: 260px;
+	}
+	.login-prompt-content {
+		font-size: 13px;
+		line-height: 1.4;
+	}
+	.login-prompt{
+		font-size: 14px;
+		margin-bottom: 6px;
+		width: 260px;
+	}
+	.auth_login_footer p {
+		font-size:10px;
+	}
+	.auth_error {
+   	 	font-size: 11px;
+  		top:36px;
+  	}
+	.header .header-top-img img {
+		width: 560px;
+		padding-top: 30px;
+		padding-left: 70px;
+
+	}
+	.footer_copyright {
+    		padding-top: 4px;
+	}
+	.auth_inputi_bg {
+		width: 260px;
+		height: 36px;
+		margin-bottom: 26px;
+	}
+	.phone-login {
+		margin-left: 10px;
+	}
+	.other-login-box{
+		margin-top:20px;
+		width:300px;
+	}
+	.qq-login,.wx-login,.phone-login,.certificates-login{
+		transform:scale(0.8);
+	}
+}
+
+
+@media screen and (min-width: 1360px) {
+	.campus-icon {
+		width: 40px;
+		height: 40px;
+		top: 11px;
+		right: 170px;
+		position: fixed;
+	}
+	.mobile-login-title{
+		width: 40px;
+	}
+	.qq-login, .wx-login, .phone-login, .certificates-login {
+		margin-left: 0px;
+		transform: scale(0.8);
+	}
+	.phone-login {
+		margin-left: 10px;
+	}
+	.phone-login-box {
+		width: 160px;
+		height: 40px;
+	}
+	.phone-login-box .abs_right {
+		right: -180px;
+		top: -3px;
+	}
+	.auth_tab {
+		width: 300px;
+		margin: 0 auto;
+	}
+	.auth_bg img {
+		width: 50%;
+	}
+	.login-title{
+		width: 200px;
+	}
+	.auth_login_top_fixed{
+		margin-top:180px;
+	}
+	.certi-box {
+		text-align: center;
+		width: 300px;
+	}
+	.clickbox {
+		width: 300px;
+		color: #fff;
+	}
+	.auth_inputi_bg {
+		border-radius: 13px;
+		width: 300px;
+		height: 40px;
+	}
+	.auth_input {
+		font-size: 15px;
+		width: 180px;
+		line-height: 40px;
+		text-indent: 0px;
+		height: 40px;
+	}
+	.auth_icon {
+		border: none;
+		width: 60px;
+		height: 40px;
+    }
+	#cpatchaDiv .vercode-img {
+		width: 70px;
+		height: 40px;
+	}
+	#cpatchaDiv .auth_input_ver {
+		width: 120px;
+	}
+	#cpatchaDiv .auth_icon_ver {
+		background: url(../../images/code.png) 15px center no-repeat;
+		background-color: rgba(255, 255, 255,.3);
+	}
+    .auth_icon_user {
+		background: url(../../images/user1.png) 16px no-repeat;
+	}
+	.certi-icon{
+		background: url(../../images/verification.png) 14px center no-repeat;
+	}
+	.auth_tab_content_item p label {
+		font-size: 14px;
+		margin-left: 5px;
+	}
+	.auth_login_forgetp small {
+		font-size: 14px;
+		color: #fff;
+	}
+	.auth_login_btn{
+		height: 40px;
+		width: 180px;
+		display: inline-block;
+		line-height:40px;
+		letter-spacing:5PX;
+		cursor:pointer;
+	}
+	.loginbox {
+		width: 300px;
+		text-align: center;
+	}
+	.other-box {
+		width: 300px;
+	}
+	.login-prompt-content {
+		font-size: 13px;
+		line-height: 1.4;
+	}
+	.login-prompt{
+		font-size:13px;
+		margin-bottom:6px;
+		margin-top: -10px;
+		width: 300px;
+	}
+	.other-login-box{
+		position: fixed;
+		bottom: 50px;
+	}
+	.auth_login_footer p {
+		font-size:10px;
+	}
+	.footer_copyright{
+		padding-top:4px;
+	}
+	.auth_error {
+		font-size: 11px;
+		top:40px;
+  	}
+	.header .header-top-img img {
+   	 	width: 560px;
+   	 	padding-top: 30px;
+		padding-left:70px;
+	}
+	.header .tap-nav {
+   	 	margin-top: 20px;
+	}
+	
+	.ctrlbtn span{
+		margin:0 6px;
+	}
+	.auth_login_left .auth_others{
+		z-index:1000;
+		left:520px;
+		bottom:22px;
+	}
+}
+
+
+@media screen and (min-width: 1440px) {
+	.campus-icon {
+		width: 40px;
+		height: 40px;
+		top: 70px;
+		right: 170px;
+		position: fixed;
+	}
+	.loginbox {
+		width: 340px;
+		text-align: center;
+	}
+	.clickbox {
+		width: 340px;
+		color: #fff;
+	}
+	.other-box {
+		width: 350px;
+	}
+	#cpatchaDiv .auth_input_ver {
+		width: 140px;
+	}
+	.auth_tab {
+		width: 340px;
+		margin: 0 auto;
+		margin-top: 60px;
+	}	
+	#cpatchaDiv .vercode-img {
+		width: 74px;
+		height: 46px;
+	}
+	.certi-box {
+		text-align: center;
+		width: 340px;
+	}
+	.phone-login-box .abs_right {
+		right: -180px;
+		top: -3px;
+	}
+	.login-title{
+		width: 200px;
+		margin-bottom:10px;
+	}
+	.mobile-login-title{
+		width: 50px;
+	}
+	.auth_inputi_bg {
+		width: 340px;
+		height: 46px;
+	}
+	.auth_input {
+		font-size: 16px;
+		width: 226px;
+		line-height: 46px;
+		height: 46px;
+	}
+	.auth_login_top_fixed{
+		margin-top:180px;
+	}
+	.phone-login-box {
+		width: 220px;
+		height: 46px;
+	}
+	.certi-icon {
+		background: url(../../images/verification.png) 14px center no-repeat;
+	}
+	.auth_icon {
+		border: none;
+		width: 60px;
+		height: 46px;
+    }
+    .auth_icon_user {
+		background: url(../../images/user1.png) 21px center no-repeat;
+	}
+	.auth_icon_pwd{
+		background: url(../../images/password1.png) 26px center no-repeat;
+	}
+	.auth_login_btn{
+		height: 46px;
+		display: inline-block;
+		line-height:46px;
+		letter-spacing:5PX;
+		cursor:pointer;
+	}
+	.login-prompt{
+		font-size:14px;
+		color:#0F8FDF;
+		margin-bottom:7px;
+		width:340px;
+	}
+	.auth_login_footer p {
+		font-size:10px;
+		text-align:center;
+		
+	}
+	.footer_copyright {
+   		padding-top: 13px;
+}
+	.auth_error {
+		font-size: 11px;
+		top:46px;
+  	}
+	.header .header-top-img img {
+		width:660px;
+		padding-top:6px;
+		padding-left:70px;
+	}
+	.ctrlbtn span{
+		width:10px;
+		height:10px;
+		margin:0 6px;
+	}
+	.auth_login_left .auth_others{
+		z-index:1000;
+		left:548px;
+		bottom:20px;
+	}
+}
+
+
+@media screen and (min-width: 1600px) {	
+	.campus-icon{
+		width: 40px;
+		height: 40px;
+		top: 42px;
+		right: 170px;
+		position: fixed;
+	}
+	
+	.other-box {
+		width: 390px;
+	}
+	.loginbox {
+		width: 390px;
+		text-align: center;
+	}
+	.certi-box {
+		text-align: center;
+		width: 390px;
+	}
+	.mobile-login-title{
+		width: 50px;
+	}
+	.clickbox {
+		width: 390px;
+		color: #fff;
+	}
+	#cpatchaDiv .auth_icon_ver{
+		border-radius: 13px 0 0 13px;
+		height: 50px;
+	}
+	#cpatchaDiv .auth_input_ver {
+		width: 200px;
+		height: 50px;
+	}
+	#cpatchaDiv .vercode-img {
+		width: 90px;
+		height: 50px;
+	}
+	.auth_tab {
+		width: 390px;
+		margin: 0 auto;
+		margin-top: 30px;
+	}
+	.login-prompt{
+		font-size:14px;
+		width:390px;
+	}
+	.auth_login_btn{
+		height: 50px;
+		display: inline-block;
+		line-height:50px;
+		letter-spacing:5PX;
+		cursor:pointer;
+	}
+	.auth_inputi_bg {
+		border-radius: 13px;
+		width: 390px;
+		height: 50px;
+	}
+	.auth_icon {
+		border: none;
+		width: 60px;
+		height: 50px;
+	}
+	.auth_input {
+		font-size: 16px;
+		width: 280px;
+		line-height: 50px;
+		text-indent: 0px;
+		height: 50px;
+		letter-spacing: 3px;
+	}
+	.login-title {
+		width: 200px;
+		margin-top:-10px;
+	}
+	.phone-login-box {
+		width: 260px;
+		height: 50px;
+	}
+	/*.auth_login_top_fixed{
+		margin-top:100px;
+	}*/
+	.certi-icon {
+		background: url(../../images/verification.png) 19px center no-repeat;
+	}
+	.phone-login-box .abs_right {
+		right: -180px;
+		top: -6px;
+	}
+	.footer_copyright {
+   		padding-top: 13px;
+}
+	.auth_error {
+		font-size: 14px;
+		top: 50px;
+  	}
+	.header .header-top-img img {
+		width: 580px;
+		padding-top: 40px;
+		padding-left: 70px;
+	}
+	.ctrlbtn span{
+		width:10px;
+		height:10px;
+		margin:0 6px;
+	}
+	.auth_login_left .auth_others{
+		z-index:1000;
+		left:612px;
+		bottom:6px;
+	}
+}
+
+@media screen and (min-width: 1680px) {
+	.phone-login-box .abs_right {
+		right: -180px;
+		top: -24px;
+	}
+	.ctrlbtn span{
+		width:10px;
+		height:10px;
+		margin:0 6px;
+	}
+	.auth_login_left .auth_others{
+		z-index:1000;
+		left:640px;
+		bottom:30px;
+	}
+}
+
+
+@media screen and (min-width: 1920px) {
+	.campus-icon {
+		width: 40px;
+		height: 40px;
+		top: 60px;
+		right: 170px;
+		position: fixed;
+	}
+	.phone-login-box .abs_right {
+		right: -180px;
+		top: -7px;
+	}
+	.login-title{
+		font-size:28px;
+	}
+	.auth_input {
+		font-size: 16px;
+		width: 280px;
+		line-height: 50px;
+		text-indent: 0px;
+		height: 50px;
+	}
+	.auth_login_top_fixed{
+		margin-top:180px;
+	}
+	.auth_icon {
+		border: none;
+		width: 60px;
+		height: 50px;
+    }
+    .auth_icon_user {
+		background: url(../../images/user1.png) 21px no-repeat;
+	}
+	.auth_icon_pwd{
+		background: url(../../images/password1.png) 26px no-repeat;
+	}
+	.auth_login_btn{
+		height: 50px;
+		font-size:16px;
+		display: inline-block;
+		line-height:50px;
+		letter-spacing:5PX;
+		cursor:pointer;
+	}
+	.login-prompt{
+		font-size: 13px;
+		margin-bottom: 6px;
+		margin-top: -10px;
+		width: 390px;
+	}
+	.auth_login_footer p {
+		font-size:14px;
+		text-align:center;
+	}
+	.footer_copyright{
+		padding-top:18px;
+	}
+	.auth_error {
+		font-size: 11px;
+		top:48px;
+  	}
+	.header .header-top-img img {
+		width: 712px;
+		padding-top:60px;
+		padding-left:70px;
+	}
+	.header .tap-nav {
+		margin-top: 40px;
+	}
+	.ctrlbtn span{
+		width:12px;
+		height:12px;
+		margin:0 8px;
+	}
+	.auth_login_left .auth_others{
+		z-index:1000;
+		left:732px;
+		bottom:40px;
+	}
+	.qq-login, .wx-login, .phone-login, .certificates-login {
+		transform: scale(1);
+	}
+	.phone-login {
+		margin-left: 60px;
+	}
+	.certificates-login {
+		margin-left: 60px;
+	}
+
+}
+
+#casLoginForm,#casDynamicLoginForm{
+	display:none;
+}
+.tap-nav{
+	position: relative;
+	display:none;
+}

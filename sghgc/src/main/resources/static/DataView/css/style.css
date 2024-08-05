@@ -1,0 +1,308 @@
+﻿#wrapper {
+  width:100%;
+  height:100%;
+  text-align:center;
+  font-family: 'Lato', sans-serif;
+  text-transform:uppercase;
+  margin:0px;
+  padding:0 0 0 0;
+}
+#toolbar {  
+  width:100%;
+  height:60%;
+  margin: 20px auto;
+}
+#toolbar ul {
+	height:100%;
+    display: block;
+    list-style-type: disc;
+    /*margin-block-start: 1em;*/
+    /*margin-block-end: 1em;*/
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+}
+#toolbar ul li{
+    /*display:inline;*/
+    /*margin:75px;*/
+	height:25%;
+}
+
+.mapbutton {
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  background-color:#3AB09E;
+  color:#ffffff;
+  text-align:center;
+  font-size:24px;
+  line-height:70px;
+  letter-spacing:3px;
+  position:relative;
+  left:50%;
+  margin-left:-35px;
+  z-index:1;
+}
+.mapbutton:hover {
+    cursor: pointer;
+}
+.mapbutton,.icons{
+  -webkit-transition: -webkit-all 1s cubic-bezier(.87,-.41,.19,1.44);
+          transition:  all 1s cubic-bezier(.87,-.41,.19,1.44);
+}
+
+
+.mybutton {
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  background-color:#3AB09E;
+  color:#ffffff;
+  text-align:center;
+  font-size:24px;
+  line-height:70px;
+  letter-spacing:3px;
+  position:relative;
+  left:50%;
+  margin-left:-35px;
+  z-index:1;
+}
+.mybutton:hover {
+    cursor: pointer;
+}
+.mybutton,.icons{
+  -webkit-transition: -webkit-all 1s cubic-bezier(.87,-.41,.19,1.44);
+          transition:  all 1s cubic-bezier(.87,-.41,.19,1.44);
+}
+.mybutton.active {
+  /*-webkit-transform: rotate(45deg);
+  transform: rotate(45deg);*/
+  left:35px;
+  margin-left:-30px;
+}
+
+.icons{
+    /*
+  width:65px;
+  overflow:hidden;
+  height:65px;
+  list-style:none;
+  /*padding:16px 10px 10px 50px;
+  padding:0 0 0 0;
+  background-color:#ffffff;
+  box-shadow: 1px 1px 1px 1px #DCDCDC;
+  left:50%;
+  margin:-68px 0 0 -35px;
+  border-radius: 2em;
+  */
+  width:60px;
+  height:60px;
+  border-radius: 2em;
+  background-color:#222222;
+  text-align:center;
+  line-height:60px;
+  color:#000000;
+  position:relative;
+  left:50%;
+  margin-top:-65px;
+  margin-left:-30px;
+  /*overflow:hidden;*/
+}
+.divcompont select {
+	color: #ffffff;
+	background: #222222; /* 1d9dff */
+}
+.demo-tree-more {
+	margin-left:42px;
+	position:relative;   /*absolute,relative或fixed   Inherit  Sticky*/ 
+	/*background:#222222;*/
+	z-index:999;
+	text-align:left;
+	letter-spacing:1px;
+	width:215px;
+	/*overflow: scroll;*/
+	z-index:9999;
+}
+.divcompont{
+  width:100%;
+  height:100%;
+  font:18px "microsoft yahei",Helvetica,Tahoma,Arial,"Microsoft jhengHei",sans-serif;
+  letter-spacing:6px;
+  text-align:center;
+  line-height:60px;
+  color:#000000;
+  display:none;
+  margin-left:20px;
+  padding-top:17px;
+}
+.divcompont.open {
+  overflow:hidden;
+  display:block;
+}
+.icons.open {
+  width:96%;
+  margin:-65px 10px 0 -46%;
+  overflow:hidden;
+}
+.tjbtn {
+    text-align:center;
+    margin:20px 5px 20px 5px;
+}
+.tjbtn a{
+	text-decoration: none;
+	outline: none;
+    letter-spacing:20px;
+    text-align:center;
+}
+.act-but{
+	line-height: 30px;
+	text-align: center;
+	font-size:24px;
+	border-radius: 50px;
+	background: #54db67;
+    padding: 15px;
+	display: block;
+}
+
+.selectyle{
+  width:50%;
+  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 1px #808080;
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("../img/arrow.png") no-repeat scroll right center transparent;
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  padding-right: 18px;
+  font:18px "microsoft yahei",Helvetica,Tahoma,Arial,"Microsoft jhengHei",sans-serif;
+}
+.selectyle1{
+  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 1px #808080;
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("../img/arrow.png") no-repeat scroll right center transparent;
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  padding-right: 18px;
+  font:18px "microsoft yahei",Helvetica,Tahoma,Arial,"Microsoft jhengHei",sans-serif;
+}
+.sj-input{
+  width:50%;
+    /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 1px #808080;
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  padding-right: 14px;
+  font:18px "microsoft yahei",Helvetica,Tahoma,Arial,"Microsoft jhengHei",sans-serif;
+}
+.panel-right {
+    text-align:center;
+    /*overflow-y:scroll;*/
+}
+.chartszone {
+    width:100%;
+    height:100%;
+    background-color:#ffffff;
+    color:#000000;
+    text-align:center;
+    position:relative;
+}
+
+
+
+/*加载等待样式*/
+.background { 
+    display: block; 
+    width: 100%; 
+    height: 100%; 
+    opacity: 0.8; 
+    filter: alpha(opacity=80); 
+    background-color:#000000;
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    z-index: 2000; 
+} 
+.progressBar { 
+    border: solid 2px #86A5AD; 
+    background: white url(../img/progressBar_m.gif) no-repeat 10px 10px; 
+} 
+.progressBar { 
+    display: block; 
+    width: 160px; 
+    height: 28px; 
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    margin-left: -74px; 
+    margin-top: -14px; 
+    padding: 10px 10px 10px 50px; 
+    text-align: left; 
+    line-height: 27px; 
+    font-weight: bold; 
+    position: absolute; 
+    z-index: 2001; 
+} 
+/*加载等待样式end*/
+
+.panel-left {
+  flex: 0 0 auto;
+  /* only manually resize */
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  min-width: 300px;  /* 350 */
+  white-space: nowrap;
+  color: white;
+}
+
+/* 定义滚动条样式 */
+.demo-tree-more::-webkit-scrollbar {
+  width: 12px;
+  height: 0px;
+  background-color: rgba(34, 34, 34, 1);
+}
+ 
+/*定义滚动条轨道 内阴影+圆角*/
+.demo-tree-more::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px rgba(0, 0, 0, .5);
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, .5);
+}
+ 
+/*定义滑块 内阴影+圆角*/
+.demo-tree-more::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  box-shadow: inset 0 0 0px rgba(0, 0, 0, .5);
+  background-color: rgba(34, 34, 34, .5);
+}
+
+/* 定义滚动条样式 */
+body::-webkit-scrollbar {
+  width: 12px;
+  height: 0px;
+  background-color: rgba(34, 34, 34, 1);
+}
+ 
+/*定义滚动条轨道 内阴影+圆角*/
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px rgba(0, 0, 0, .5);
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, .5);
+}
+ 
+/*定义滑块 内阴影+圆角*/
+body::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  box-shadow: inset 0 0 0px rgba(0, 0, 0, .5);
+  background-color: rgba(34, 34, 34, .5);
+}

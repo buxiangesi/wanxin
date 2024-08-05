@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shggc.project.jcxx.fc.mapper.TJcFcMapper">
+
+	<resultMap type="com.shggc.project.jcxx.fc.domain.TJcFc" id="TJcFcResult">
+		<id property="id"    column="id"    />
+		<result property="fcbh"    column="fcbh"    />
+		<result property="fwzl"    column="fwzl"    />
+		<result property="cqr"    column="cqr"    />
+		<result property="cqrsfz"    column="cqrsfz"    />
+		<result property="cqrlxdh"    column="cqrlxdh"    />
+		<result property="jzr"    column="jzr"    />
+		<result property="jzrlxdh"    column="jzrlxdh"    />
+		<result property="fwcqz"    column="fwcqz"    />
+		<result property="tdsyzh"    column="tdsyzh"    />
+		<result property="tdsymj"    column="tdsymj"    />
+		<result property="qllx"    column="qllx"    />
+		<result property="qlxz"    column="qlxz"    />
+		<result property="sfwzf"    column="sfwzf"    />
+		<result property="fccs"    column="fccs"    />
+		<result property="zxbz"    column="zxbz"    />
+		<result property="bz"    column="bz"    />
+		<result property="kz1"    column="kz1"    />
+		<result property="kz2"    column="kz2"    />
+		<result property="fwcb" column="fwcb"/>
+		<association property="tJcPqJd" javaType="com.shggc.project.jcxx.pqjd.domain.TJcPqJd">
+			<id property="id" column="jdid"/>
+			<result property="pqmc" column="pqmc"/>
+			<result property="jdmc" column="jdmc"/>
+		</association>
+		<collection property="tJcFcFws" ofType="com.shggc.project.jcxx.fw.domain.TJcFcFw">
+			<id property="id" column="fwid"/>
+			<result property="fcid" column="fcid"/>
+			<result property="fwjs" column="fwjs"/>
+			<result property="jzmj" column="jzmj"/>
+			<result property="zxbz" column="fwzxbz"/>
+			<result property="bz" column="fwbz"/>
+		</collection>
+	</resultMap>
+
+	<sql id="selectTJcFcVo">
+		select fc.id as id, pq.pqmc as pqmc, jd.jdmc as jdmc, jdid, fcbh, fwzl, cqr, cqrsfz, cqrlxdh, jzr, jzrlxdh, fwcqz, tdsyzh, tdsymj, qllx, qlxz, sfwzf, fccs, fc.zxbz as zxbz, fc.bz as bz, fwcb 
+			from t_jc_pq pq, t_jc_pq_jd jd, t_jc_fc fc
+	</sql>
+	
+	<sql id="selectTJcFwVo">
+		select id as fwid, fcid, fwjs, jzmj, zxbz as fwzxbz, bz as fwbz from t_jc_fc_fw
+	</sql>
+
+	<select id="selectTJcFcList" parameterType="com.shggc.project.jcxx.fc.domain.TJcFc" resultMap="TJcFcResult">
+		select a.*, b.* from (
+		<include refid="selectTJcFcVo"/>
+		<where>
+			pq.id=pqid and jd.id=jdid and pq.zxbz='0' and jd.zxbz='0'
+			<if test="tJcPqJd != null and tJcPqJd.id != ''"> and jdid= #{tJcPqJd.id}</if>
+			<if test="fcbh != null  and fcbh != ''"> and fcbh = #{fcbh}</if>
+			<if test="cqr != null  and cqr != ''"> and cqr like concat(concat('%', #{cqr}), '%')</if>
+			<if test="cqrsfz != null  and cqrsfz != ''"> and cqrsfz = #{cqrsfz}</if>
+			<if test="jzr != null  and jzr != ''"> and jzr like concat(concat('%', #{jzr}), '%')</if>
+			<if test="fwcqz != null  and fwcqz != ''"> and fwcqz = #{fwcqz}</if>
+			<if test="tdsyzh != null  and tdsyzh != ''"> and tdsyzh = #{tdsyzh}</if>
+			<if test="zxbz != null  and zxbz != ''"> and fc.zxbz = #{zxbz}</if>
+		</where>
+		) a left join (
+		<include refid="selectTJcFwVo"/>
+		) b on id=fcid		
+	</select>
+
+	<select id="selectTJcFcById" parameterType="java.lang.String" resultMap="TJcFcResult">
+		select a.*, b.* from (
+		<include refid="selectTJcFcVo"/>
+		<where>
+			pq.id=pqid and jd.id=jdid and fc.id=#{id}
+		</where>
+		) a left join (
+		<include refid="selectTJcFwVo"/>
+		) b on id=fcid		
+	</select>
+	<select id="selectTJcFcByJdId" parameterType="java.lang.String" resultMap="TJcFcResult">
+		select * from t_jc_fc where jdid=#{jdid}	
+	</select>
+	<select id="generateFcbh" resultType="java.lang.Integer">
+		SELECT seq_fcbh.NEXTVAL as fcbh FROM DUAL
+	</select>
+	<insert id="insertTJcFc" parameterType="com.shggc.project.jcxx.fc.domain.TJcFc">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+			SELECT seq_id.NEXTVAL as id FROM DUAL
+		</selectKey>
+		insert into t_jc_fc
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="tJcPqJd != null">jdid,</if>
+			<if test="fcbh != null">fcbh,</if>
+			<if test="fwzl != null and fwzl != ''">fwzl,</if>
+			<if test="cqr != null and cqr != ''">cqr,</if>
+			<if test="cqrsfz != null">cqrsfz,</if>
+			<if test="cqrlxdh != null">cqrlxdh,</if>
+			<if test="jzr != null">jzr,</if>
+			<if test="jzrlxdh != null">jzrlxdh,</if>
+			<if test="fwcqz != null">fwcqz,</if>
+			<if test="tdsyzh != null">tdsyzh,</if>
+			<if test="tdsymj != null">tdsymj,</if>
+			<if test="qllx != null">qllx,</if>
+			<if test="qlxz != null">qlxz,</if>
+			<if test="sfwzf != null">sfwzf,</if>
+			<if test="fccs != null">fccs,</if>
+			<if test="zxbz != null">zxbz,</if>
+			<if test="bz != null">bz,</if>
+			<if test="kz1 != null">kz1,</if>
+			<if test="kz2 != null">kz2,</if>
+			<if test="fwcb != null">fwcb,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="tJcPqJd != null">#{tJcPqJd.id},</if>
+			<if test="fcbh != null">#{fcbh},</if>
+			<if test="fwzl != null and fwzl != ''">#{fwzl},</if>
+			<if test="cqr != null and cqr != ''">#{cqr},</if>
+			<if test="cqrsfz != null">#{cqrsfz},</if>
+			<if test="cqrlxdh != null">#{cqrlxdh},</if>
+			<if test="jzr != null">#{jzr},</if>
+			<if test="jzrlxdh != null">#{jzrlxdh},</if>
+			<if test="fwcqz != null">#{fwcqz},</if>
+			<if test="tdsyzh != null">#{tdsyzh},</if>
+			<if test="tdsymj != null">#{tdsymj},</if>
+			<if test="qllx != null">#{qllx},</if>
+			<if test="qlxz != null">#{qlxz},</if>
+			<if test="sfwzf != null">#{sfwzf},</if>
+			<if test="fccs != null">#{fccs},</if>
+			<if test="zxbz != null">#{zxbz},</if>
+			<if test="bz != null">#{bz},</if>
+			<if test="kz1 != null">#{kz1},</if>
+			<if test="kz2 != null">#{kz2},</if>
+			<if test="fwcb != null">#{fwcb},</if>
+		</trim>
+	</insert>
+
+	<update id="updateTJcFc" parameterType="com.shggc.project.jcxx.fc.domain.TJcFc">
+		update t_jc_fc
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="tJcPqJd != null">jdid = #{tJcPqJd.id},</if>
+			<if test="fcbh != null">fcbh = #{fcbh},</if>
+			<if test="fwzl != null and fwzl != ''">fwzl = #{fwzl},</if>
+			<if test="cqr != null and cqr != ''">cqr = #{cqr},</if>
+			<if test="cqrsfz != null">cqrsfz = #{cqrsfz},</if>
+			<if test="cqrlxdh != null">cqrlxdh = #{cqrlxdh},</if>
+			<if test="jzr != null">jzr = #{jzr},</if>
+			<if test="jzrlxdh != null">jzrlxdh = #{jzrlxdh},</if>
+			<if test="fwcqz != null">fwcqz = #{fwcqz},</if>
+			<if test="tdsyzh != null">tdsyzh = #{tdsyzh},</if>
+			<if test="tdsymj != null">tdsymj = #{tdsymj},</if>
+			<if test="qllx != null">qllx = #{qllx},</if>
+			<if test="qlxz != null">qlxz = #{qlxz},</if>
+			<if test="sfwzf != null">sfwzf = #{sfwzf},</if>
+			<if test="fccs != null">fccs = #{fccs},</if>
+			<if test="zxbz != null">zxbz = #{zxbz},</if>
+			<if test="bz != null">bz = #{bz},</if>
+			<if test="kz1 != null">kz1 = #{kz1},</if>
+			<if test="kz2 != null">kz2 = #{kz2},</if>
+			<if test="fwcb != null">fwcb = #{fwcb},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteTJcFcById" parameterType="com.shggc.project.jcxx.fc.domain.TJcFc">
+        delete from t_jc_fc where id = #{id}
+    </delete>
+
+	<delete id="deleteTJcFcByIds" parameterType="java.lang.String">
+		delete from t_jc_fc where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

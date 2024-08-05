@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改房产信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-fc-edit" th:object="${tJcFc}">
+            <input name="id" th:field="*{id}" type="hidden">
+             <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">街道：</label>
+                <div class="col-sm-8">
+                      <select id="jd" name="tJcPqJd.id" class="form-control select2-single required" single>
+						  <option th:value="*{tJcPqJd.id}" th:text="*{tJcPqJd.jdmc}" ></option>
+					  </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">房产编号：</label>
+                <div class="col-sm-8">
+                    <input name="fcbh" th:field="*{fcbh}" class="form-control" type="text">
+                </div>
+            </div>
+             <div class="form-group">    
+                <label class="col-sm-3 control-label">房屋产别：</label>
+                <div class="col-sm-8">
+                    <select name="fwcb" class="form-control m-b" th:with="type=${@dict.getType('t_jc_fwcb')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{fwcb}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">房屋座落：</label>
+                <div class="col-sm-8">
+                    <input name="fwzl" th:field="*{fwzl}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">产权人：</label>
+                <div class="col-sm-8">
+                    <input name="cqr" th:field="*{cqr}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">产权人身份证号码：</label>
+                <div class="col-sm-8">
+                    <input name="cqrsfz" th:field="*{cqrsfz}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">产权人联系电话：</label>
+                <div class="col-sm-8">
+                    <input name="cqrlxdh" th:field="*{cqrlxdh}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">居住人：</label>
+                <div class="col-sm-8">
+                    <input name="jzr" th:field="*{jzr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">居住人联系电话：</label>
+                <div class="col-sm-8">
+                    <input name="jzrlxdh" th:field="*{jzrlxdh}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">房屋产权证号：</label>
+                <div class="col-sm-8">
+                    <input name="fwcqz" th:field="*{fwcqz}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">土地使用证号：</label>
+                <div class="col-sm-8">
+                    <input name="tdsyzh" th:field="*{tdsyzh}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">土地使用面积：</label>
+                <div class="col-sm-8">
+                    <input name="tdsymj" th:field="*{tdsymj}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">权利类型：</label>
+                <div class="col-sm-8">
+                    <select name="qllx" class="form-control m-b" th:with="type=${@dict.getType('t_jc_qllx')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{qllx}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">权利性质：</label>
+                <div class="col-sm-8">
+                    <select name="qlxz" class="form-control m-b" th:with="type=${@dict.getType('t_jc_qlxz')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{qlxz}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否无证房：</label>
+                <div class="col-sm-8">
+                    <select name="sfwzf" class="form-control m-b" th:with="type=${@dict.getType('t_jc_sfwzf')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{sfwzf}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">房产出售：</label>
+                <div class="col-sm-8">
+                    <select name="fccs" class="form-control m-b" th:with="type=${@dict.getType('t_jc_fccs')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{fccs}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">注销标志：</label>
+                <div class="col-sm-8">
+                    <select name="zxbz" class="form-control m-b" th:with="type=${@dict.getType('t_jc_zxzt')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{zxbz}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input name="bz" th:field="*{bz}" class="form-control" type="text">
+                </div>
+            </div>
+          	<div class="row">
+                <div class="col-sm-12">
+           			<h4 class="form-header h4">房屋信息</h4>
+                    <button type="button" class="btn btn-white btn-sm" onclick="addColumn()"><i class="fa fa-plus"> 增加</i></button>
+                    <button type="button" class="btn btn-white btn-sm" onclick="sub.delColumn()"><i class="fa fa-minus"> 删除</i></button>
+                    <div class="col-sm-12 select-table table-striped">
+                        <table id="bootstrap-table" style="table-layout:fixed;word-break:break-all;"></table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "jcxx/fc";
+        var zxztDatas = [[${@dict.getType('t_jc_zxzt')}]];
+        $("#form-fc-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-fc-edit').serialize());
+            }
+        }
+        
+        $(function() {
+            var options = {
+            	data: [[${tJcFc.tJcFcFws}]],
+                pagination: false,
+                showSearch: false,
+                showRefresh: false,
+                showToggle: false,
+                showColumns: false,
+                sidePagination: "client",
+                columns: [{
+                    checkbox: true,
+                    width: '10%'
+                },
+                {
+                    field: 'index',
+                    align: 'center',
+                    title: "序",
+                    formatter: function (value, row, index) {     
+                    	var columnIndex = $.common.sprintf("<input type='hidden' name='index' value='%s'>", $.table.serialNumber(index));
+                    	return columnIndex + $.table.serialNumber(index);
+                    },
+                    width: '8%'
+                },
+                {
+                    field: 'fwjs',
+                    align: 'center',
+                    title: '房屋间数',
+                    formatter: function(value, row, index) {
+                        var html = $.common.sprintf("<input class='form-control' type='text' name='tJcFcFws[%s].fwjs' value='%s'>", index, value);
+                        return html;
+                    },
+                    width: '30%'
+                },
+                {
+                    field: 'jzmj',
+                    align: 'center',
+                    title: '建筑面积',
+                    formatter: function(value, row, index) {
+                        var html = $.common.sprintf("<input class='form-control' type='text' name='tJcFcFws[%s].jzmj' value='%s'>", index, value);
+                        return html;
+                    },
+                    width: '40%'
+                },
+                {
+                    field: 'zxbz',
+                    align: 'center',
+                    title: '注销标志',
+                    formatter: function(value, row, index) {
+                        var name = $.common.sprintf("tJcFcFws[%s].zxbz", index);
+                        return $.common.dictToSelect(zxztDatas, value, name);
+                    },               
+                    width: '20%'
+                },
+                {
+                    field: 'bz',
+                    align: 'center',
+                    title: '备注',
+                    formatter: function(value, row, index) {
+                        var html = $.common.sprintf("<input class='form-control' type='text' name='tJcFcFws[%s].bz' value='%s'>", index, value);
+                        return html;
+                    },
+                    width: '30%'
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        function addColumn() {
+            var count = $("#" + table.options.id).bootstrapTable('getData').length + 1;  
+            sub.editColumn();
+            $("#" + table.options.id).bootstrapTable('insertRow', {
+                index: count,
+                row: {
+                	index: $.table.serialNumber(count),
+                    fwjs: "0",
+                    jzmj: "0",
+                    zxbz: "0",
+                    bz: ""
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shggc.project.jcxx.fw.mapper.TJcFcFwMapper">
+
+	<resultMap type="com.shggc.project.jcxx.fw.domain.TJcFcFw" id="TJcFcFwResult">
+		<result property="id"    column="id"    />
+		<result property="fcid"    column="fcid"    />
+		<result property="fwcb"    column="fwcb"    />
+		<result property="fwjs"    column="fwjs"    />
+		<result property="jzmj"    column="jzmj"    />
+		<result property="zxbz"    column="zxbz"    />
+		<result property="bz"    column="bz"    />
+		<result property="kz1"    column="kz1"    />
+		<result property="kz2"    column="kz2"    />
+	</resultMap>
+
+	<sql id="selectTJcFcFwVo">
+		select id, fcid, fwcb, fwjs, jzmj, zxbz, bz, kz1, kz2 from t_jc_fc_fw
+	</sql>
+
+	<select id="selectTJcFcFwList" parameterType="com.shggc.project.jcxx.fw.domain.TJcFcFw" resultMap="TJcFcFwResult">
+		<include refid="selectTJcFcFwVo"/>
+		<where>
+			<if test="fcid != null  and fcid != ''"> and fcid = #{fcid}</if>
+			<if test="fwcb != null  and fwcb != ''"> and fwcb = #{fwcb}</if>
+			<if test="fwjs != null "> and fwjs = #{fwjs}</if>
+			<if test="jzmj != null "> and jzmj = #{jzmj}</if>
+			<if test="zxbz != null  and zxbz != ''"> and zxbz = #{zxbz}</if>
+		</where>
+	</select>
+
+	<select id="selectTJcFcFwById" parameterType="java.lang.String" resultMap="TJcFcFwResult">
+		<include refid="selectTJcFcFwVo"/>
+		where id = #{id}
+	</select>
+
+	<insert id="insertTJcFcFw" parameterType="com.shggc.project.jcxx.fw.domain.TJcFcFw">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+			SELECT seq_id.NEXTVAL as id FROM DUAL
+		</selectKey>
+		insert into t_jc_fc_fw
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="fcid != null">fcid,</if>
+			<if test="fwjs != null">fwjs,</if>
+			<if test="jzmj != null">jzmj,</if>
+			<if test="zxbz != null">zxbz,</if>
+			<if test="bz != null">bz,</if>
+			<if test="kz1 != null">kz1,</if>
+			<if test="kz2 != null">kz2,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="fcid != null">#{fcid},</if>
+			<if test="fwjs != null">#{fwjs},</if>
+			<if test="jzmj != null">#{jzmj},</if>
+			<if test="zxbz != null">#{zxbz},</if>
+			<if test="bz != null">#{bz},</if>
+			<if test="kz1 != null">#{kz1},</if>
+			<if test="kz2 != null">#{kz2},</if>
+		</trim>
+	</insert>
+
+	<update id="updateTJcFcFw" parameterType="com.shggc.project.jcxx.fw.domain.TJcFcFw">
+		update t_jc_fc_fw
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="fcid != null">fcid = #{fcid},</if>
+			<if test="fwcb != null">fwcb = #{fwcb},</if>
+			<if test="fwjs != null">fwjs = #{fwjs},</if>
+			<if test="jzmj != null">jzmj = #{jzmj},</if>
+			<if test="zxbz != null">zxbz = #{zxbz},</if>
+			<if test="bz != null">bz = #{bz},</if>
+			<if test="kz1 != null">kz1 = #{kz1},</if>
+			<if test="kz2 != null">kz2 = #{kz2},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteTJcFcFwById" parameterType="com.shggc.project.jcxx.fw.domain.TJcFcFw">
+        delete from t_jc_fc_fw where id = #{id}
+    </delete>
+    
+    <delete id="deleteTJcFcFwByFcId" parameterType="com.shggc.project.jcxx.fw.domain.TJcFcFw">
+        delete from t_jc_fc_fw where fcid = #{fcid}
+    </delete>
+
+	<delete id="deleteTJcFcFwByIds" parameterType="java.lang.String">
+		delete from t_jc_fc_fw where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

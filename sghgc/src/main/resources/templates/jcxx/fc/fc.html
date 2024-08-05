@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<th:block th:include="include :: header('房产信息列表')" />
+<th:block th:include="include :: layout-latest-css" />
+<th:block th:include="include :: ztree-css" />
+</head>
+<body class="gray-bg">
+	<div class="ui-layout-west">
+		<div class="box box-main">
+			<div class="box-header">
+				<div class="box-title">
+					<i class="fa icon-grid"></i> 街道信息
+				</div>
+				<div class="box-tools pull-right">
+					<a type="button" class="btn btn-box-tool" href="#"
+						onclick="tjcjd()" title="街道管理"><i class="fa fa-edit"></i></a>
+					<button type="button" class="btn btn-box-tool" id="btnExpand"
+						title="展开" style="display: none;">
+						<i class="fa fa-chevron-up"></i>
+					</button>
+					<button type="button" class="btn btn-box-tool" id="btnCollapse"
+						title="折叠">
+						<i class="fa fa-chevron-down"></i>
+					</button>
+					<button type="button" class="btn btn-box-tool" id="btnRefresh"
+						title="刷新街道">
+						<i class="fa fa-refresh"></i>
+					</button>
+				</div>
+			</div>
+			<div class="ui-layout-content">
+				<div id="tree" class="ztree"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="ui-layout-center">
+		<div class="container-div">
+			<div class="row">
+				<div class="col-sm-12 search-collapse">
+					<form id="formId">
+						<input id="jdid" type="hidden" name="tJcPqJd.id" />
+						<div class="select-list">
+							<ul>
+								<li><label>房产编号：</label> <input type="text" name="fcbh" />
+								</li>
+								<li ><label>产权人：</label> <input type="text" name="cqr" /></li>
+								<li ><label>产权人身份证号码：</label> <input type="text"
+									name="cqrsfz" /></li>
+							
+							
+								<li><label>居住人：</label> <input type="text" name="jzr" /></li>
+								<li><label>房屋产权证号：</label> <input type="text" name="fwcqz" />
+								</li>
+								<li><label>土地使用证号：</label> <input type="text" name="tdsyzh" />
+								</li>
+							
+							
+								<li><label>注销标志：</label> <select name="zxbz"
+									th:with="type=${@dict.getType('t_jc_zxzt')}">
+										<option value="">所有</option>
+										<option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+											th:value="${dict.dictValue}"></option>
+								</select></li>
+								<li><a class="btn btn-primary btn-rounded btn-sm"
+									onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+									<a class="btn btn-warning btn-rounded btn-sm"
+									onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+								</li>
+							</ul>
+						</div>
+					</form>
+				</div>
+
+				<div class="btn-group-sm" id="toolbar" role="group">
+					<a class="btn btn-success" onclick="$.operate.add()"
+						shiro:hasPermission="jcxx:fc:add"> <i class="fa fa-plus"></i>
+						添加
+					</a> <a class="btn btn-primary single disabled"
+						onclick="$.operate.edit()" shiro:hasPermission="jcxx:fc:edit">
+						<i class="fa fa-edit"></i> 修改
+					</a> <a class="btn btn-danger multiple disabled"
+						onclick="$.operate.removeAll()"
+						shiro:hasPermission="jcxx:fc:remove"> <i class="fa fa-remove"></i>
+						删除
+					</a> <a class="btn btn-warning" onclick="$.table.exportExcel()"
+						shiro:hasPermission="jcxx:fc:export"> <i
+						class="fa fa-download"></i> 导出
+					</a>
+				</div>
+				<div class="col-sm-12 select-table table-striped">
+
+					<table id="bootstrap-table"></table>
+					<!--以下代码为列实现拖拽的代码，已经注释，效果不好  -->
+				<!-- 	<script src="/js/colResizable-1.6.js" />
+
+					<script
+						src="/ajax/libs/bootstrap-table/extensions/resizable/bootstrap-table-resizable.js"></script>
+					<script type="text/javascript">
+         $(function(){
+             $("#bootstrap-table").colResizable({
+                 liveDrag:true,
+                 gripInnerHtml:"<div class='grip'></div>",
+                 draggingClass:"dragging",
+                 resizeMode:'fit'
+             });
+         });
+     </script> -->
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: layout-latest-js" />
+	<th:block th:include="include :: ztree-js" />
+
+	<script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('jcxx:fc:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('jcxx:fc:remove')}]];
+        var qllxDatas = [[${@dict.getType('t_jc_qllx')}]];
+        var qlxzDatas = [[${@dict.getType('t_jc_qlxz')}]];
+        var sfwzfDatas = [[${@dict.getType('t_jc_sfwzf')}]];
+        var fccsDatas = [[${@dict.getType('t_jc_fccs')}]];
+        var zxbzDatas = [[${@dict.getType('t_jc_zxzt')}]];
+        var fwcbDatas = [[${@dict.getType('t_jc_fwcb')}]];
+        var prefix = ctx + "jcxx/fc";
+        $(function() {
+		    var panehHidden = false;
+		    if ($(this).width() < 769) {
+		        panehHidden = true;
+		    }
+		    $('body').layout({ initClosed: panehHidden, west__size: 185 });
+	     	// 回到顶部绑定
+	    	if ($.fn.toTop !== undefined) {
+	    		var opt = {
+	    			win:$('.ui-layout-center'),
+	    			doc:$('.ui-layout-center')
+	    		};
+	    		$('#scroll-up').toTop(opt);
+	    	}
+	    	queryFcList();
+	    	queryJdTree();
+		});
+        function queryFcList(){
+        	 var options = {
+                     url: prefix + "/list",
+                     createUrl: prefix + "/add",
+                     updateUrl: prefix + "/edit/{id}",
+                     removeUrl: prefix + "/remove",
+                     exportUrl: prefix + "/export",
+                     modalName: "房产信息",
+                     sortName: "fcbh",
+                     sortOrder: "asc",
+                     //sidePagination: "clinet",
+                     columns: [{
+                         checkbox: true
+                     },
+                     {
+                         field: 'id',
+                         title: '主键',
+                         visible: false
+                     },
+                     {
+                         field: 'fcbh',
+                         title: '房产编号'               
+                     },
+                     {
+                         field: 'tJcPqJd.pqmc',                      
+                         title: '所属片区',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"50px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"100px",
+                                  }
+                              }
+                          }
+                     },
+                     {
+                         field: 'tJcPqJd.jdmc',                    
+                         title: '所属街道',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"100px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"150px",
+                                  }
+                              }
+                          }
+                     },
+                     {
+                         field: 'fwcb',
+                         title: '房屋产别',
+                         formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(fwcbDatas, value);
+                         }
+                     },
+                     {
+                         field: 'fwzl',
+                         title: '房屋座落',
+                        formatter:function (value, row, index,field) {
+                            return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                         },
+                       
+                         cellStyle:function (value, row, index,field) {
+                             return {
+                                 css:{
+                                     "min-width":"150px",
+                                     "white-space":"nowrap",
+                                     "test-overflow":"ellipsis",
+                                     "overflow":"hidden",
+                                     "max-width":"300px",
+                                 }
+                             }
+                         }
+                     },
+                     {
+                         field: 'cqr',
+                         title: '产权人',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"50px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"100px",
+                                  }
+                              }
+                          }
+                         
+                     },
+                     {
+                         field: 'cqrsfz',
+                         title: '产权人身份证号码',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"150px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"300px",
+                                  }
+                              }
+                          }
+                     },
+                     {
+                         field: 'cqrlxdh',
+                         title: '产权人联系电话',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"150px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"250px",
+                                  }
+                              }
+                          }
+                     },
+                     {
+                         field: 'jzr',
+                         title: '居住人',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"50px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"100px",
+                                  }
+                              }
+                          }
+                     },
+                     {
+                         field: 'jzrlxdh',
+                         title: '居住人联系电话',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"150px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"250px",
+                                  }
+                              }
+                          }
+                     },
+                     {
+                         field: 'fwcqz',
+                         title: '房屋产权证号',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"200px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"300px",
+                                  }
+                              }
+                          }
+                     },
+                     {
+                         field: 'tdsyzh',
+                         title: '土地使用证号',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"150px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"300px",
+                                  }
+                              }
+                          }
+                     },
+                     {
+                         field: 'tdsymj',
+                         title: '土地使用面积'
+                     },
+                     {
+                         field: 'qllx',
+                         title: '权利类型',
+                         formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(qllxDatas, value);
+                         }
+                     },
+                     {
+                         field: 'qlxz',
+                         title: '权利性质',
+                         formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(qlxzDatas, value);
+                         }
+                     },
+                     {
+                         field: 'sfwzf',
+                         title: '是否无证房',
+                         formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(sfwzfDatas, value);
+                         }
+                     },
+                     {
+                         field: 'fccs',
+                         title: '房产出售',
+                         formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(fccsDatas, value);
+                         }
+                     },
+                     {
+                         field: 'zxbz',
+                         title: '注销标志',
+                         formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(zxbzDatas, value);
+                         }
+                     },
+                     {
+                         field: 'bz',
+                         title: '备注',
+                         formatter:function (value, row, index,field) {
+                             return "<span style='display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;' title="+value+">"+value+"</span>"
+                          },
+                        
+                          cellStyle:function (value, row, index,field) {
+                              return {
+                                  css:{
+                                      "min-width":"50px",
+                                      "white-space":"nowrap",
+                                      "test-overflow":"ellipsis",
+                                      "overflow":"hidden",
+                                      "max-width":"100px",
+                                  }
+                              }
+                          }
+                     },
+                     {
+                         field: 'jzmj',
+                         title: '建筑面积'
+                     },
+                     {
+                         field: 'fwjs',
+                         title: '房屋间数'
+                     },
+                     {
+                         field: 'fwtms',
+                         title: '房屋条目数'
+                     },
+                     {
+                         title: '操作',
+                         align: 'center',
+                         formatter: function(value, row, index) {
+                             var actions = [];
+                             actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                             actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                             return actions.join('');
+                         }
+                     }]
+                 };
+                 $.table.init(options);
+        }
+        
+        function queryJdTree()
+		{
+			var url = prefix + "/treeData";
+			var options = {
+		        url: url,
+		        expandLevel: 2,
+		        onClick : zOnClick
+		    };
+			$.tree.init(options);
+			
+			function zOnClick(event, treeId, treeNode) {
+				if(treeNode.id == -2)$("#jdid").val('');
+				else $("#jdid").val(treeNode.id);
+				if (treeNode.pId == null)
+				    {$.modal.alert('请选择要查询的街道!');}
+				else {
+				$.table.search();}
+			}
+		}
+        
+        $('#btnExpand').click(function() {
+			$._tree.expandAll(true);
+		    $(this).hide();
+		    $('#btnCollapse').show();
+		});
+		
+		$('#btnCollapse').click(function() {
+			$._tree.expandAll(false);
+		    $(this).hide();
+		    $('#btnExpand').show();
+		});
+		$('#btnRefresh').click(function() {
+			queryJdTree();
+		});
+		/* 辖区信息 */
+		function tjcjd() {
+			var url = ctx + "jcxx/pqjd";
+			$.modal.openTab("辖区管理", url);
+		}
+    </script>
+</body>
+</html>
