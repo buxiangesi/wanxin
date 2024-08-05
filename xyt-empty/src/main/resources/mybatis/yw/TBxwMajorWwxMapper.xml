@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyt.project.yw.major.mapper.TBxwMajorWwxMapper">
+
+	<resultMap type="com.xyt.project.yw.major.domain.TBxwMajorWwx" id="TBxwMajorWwxResult">
+		<result property="id"    column="id"    />
+		<result property="zybh"    column="zybh"    />
+		<result property="zymc"    column="zymc"    />
+	</resultMap>
+
+	<sql id="selectTBxwMajorWwxVo">
+		select id, zybh, zymc from t_bxw_major_wwx
+	</sql>
+
+	<select id="selectTBxwMajorWwxList" parameterType="com.xyt.project.yw.major.domain.TBxwMajorWwx" resultMap="TBxwMajorWwxResult">
+		<include refid="selectTBxwMajorWwxVo"/>
+		<where>
+			<if test="zybh != null  and zybh != ''"> and zybh = #{zybh}</if>
+			<if test="zymc != null  and zymc != ''"> and zymc like concat(concat('%', #{zymc}), '%')</if>
+		</where>
+	</select>
+
+	<select id="selectTBxwMajorWwxById" parameterType="java.lang.String" resultMap="TBxwMajorWwxResult">
+		<include refid="selectTBxwMajorWwxVo"/>
+		where id = #{id}
+	</select>
+
+	<insert id="insertTBxwMajorWwx" parameterType="com.xyt.project.yw.major.domain.TBxwMajorWwx">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+			SELECT seq_t_bxw_major_wwx.NEXTVAL as id FROM DUAL
+		</selectKey>
+		insert into t_bxw_major_wwx
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="zybh != null and zybh != ''">zybh,</if>
+			<if test="zymc != null and zymc != ''">zymc,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="zybh != null and zybh != ''">#{zybh},</if>
+			<if test="zymc != null and zymc != ''">#{zymc},</if>
+		</trim>
+	</insert>
+
+	<update id="updateTBxwMajorWwx" parameterType="com.xyt.project.yw.major.domain.TBxwMajorWwx">
+		update t_bxw_major_wwx
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="zybh != null and zybh != ''">zybh = #{zybh},</if>
+			<if test="zymc != null and zymc != ''">zymc = #{zymc},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteTBxwMajorWwxById" parameterType="com.xyt.project.yw.major.domain.TBxwMajorWwx">
+        delete from t_bxw_major_wwx where id = #{id}
+    </delete>
+
+	<delete id="deleteTBxwMajorWwxByIds" parameterType="java.lang.String">
+		delete from t_bxw_major_wwx where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

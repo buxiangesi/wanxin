@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+//2022-10-17yanp增加简化方法工具类
+在MyBatis中有flushCache、useCache这两个配置属性，分为下面几种情况：
+（1）当为select语句时：
+flushCache默认为false，表示任何时候语句被调用，都不会去清空本地缓存和二级缓存。
+useCache默认为true，表示会将本条语句的结果进行二级缓存。
+（2）当为insert、update、delete语句时：
+flushCache默认为true，表示任何时候语句被调用，都会导致本地缓存和二级缓存被清空。
+useCache属性在该情况下没有，不需要设置。
+
+如果不想使用缓存，执行select查询操作时，需要设置： flushCache="true" useCache="false"
+如果不想使用缓存，执行insert、update、delete更新操作时，需要设置 flushCache="true"
+-->
+
+<mapper namespace="com.xyt.project.youbeisoft.base.mapper.ISqlMapper">
+ 
+      <insert id="insert" parameterType="java.lang.String" flushCache="true">
+          ${value}
+      </insert>
+ 
+     <select id="selectList" parameterType="java.lang.String" resultType="java.util.HashMap" flushCache="true" useCache="false">
+         ${value}
+     </select>
+ 
+     <select id="selectOne" parameterType="java.lang.String" resultType="java.lang.String" flushCache="true" useCache="false">
+         ${value}
+     </select>
+ 
+     <delete id="delete" parameterType="java.lang.String" flushCache="true">
+         ${value}
+     </delete>
+ 
+     <update id="update" parameterType="java.lang.String" flushCache="true">
+         ${value}
+     </update>
+     
+	 <select id="preparedSelectMap" parameterType="java.util.Map" resultType="HashMap" flushCache="true" useCache="false">
+		 ${sql}
+	 </select>
+
+	 <select id="preparedSelectOne" parameterType="java.util.Map" resultType="java.lang.String" flushCache="true" useCache="false">
+         ${sql}
+     </select>
+
+	 <insert id="preparedInsert" parameterType="java.util.Map" flushCache="true">
+         ${sql}
+     </insert>
+
+	 <insert id="preparedUpdate" parameterType="java.util.Map" flushCache="true">
+         ${sql}
+     </insert>
+
+	 <insert id="preparedDelete" parameterType="java.util.Map" flushCache="true">
+         ${sql}
+     </insert>
+
+	 <!--
+	 <resultMap type="CourierInfo" id="CourierInfoMap">
+	 	<result column="RECEIVEINFO" property="consigneeName"/>
+	 	<result column="BILLCODE" property="billCode"/>
+	 	<result column="SCANTIME" property="expCabinetTime"/>
+	 	<result column="CABINETTYPE" property="expCabinetType"/>
+	 </resultMap>
+
+	 <select id="listCourierInfoList" statementType="CALLABLE">
+	 	{call test1(
+			#{bze500,jdbcType=VARCHAR,mode=IN},
+			#{bze501,jdbcType=VARCHAR,mode=IN},
+			#{rf,jdbcType=CURSOR,mode=OUT,resultMap=CourierInfoMap,javaType=java.sql.ResultSet}
+		)}
+	</select>
+	 -->
+	 
+	<!-- 1.简单的执行存储过程(字符串输入,字符串输出) -->
+	<select id="getSerialCodeBySiteCode" parameterType="Map" statementType="CALLABLE" >
+ 		{call P_GetToken(
+ 			#{v_siteNo,jdbcType=VARCHAR,mode=IN},#{tv,mode=OUT,jdbcType=VARCHAR}
+ 		)}
+	</select>
+	
+	<!-- 2.简单的执行存储过程返回游标,返回值需要用实体接收 -->
+	<resultMap type="com.xyt.project.youbeisoft.base.CourierInfo" id="CourierInfoMap">
+		<result column="bze500" property="bze500"/>
+		<result column="bze501" property="bze501"/>
+	</resultMap>
+	<select id="listCourierInfoList" statementType="CALLABLE">	
+  	 	{call test_page(
+  			#{page_start,jdbcType=INTEGER,mode=IN},
+			#{page_end,jdbcType=INTEGER,mode=IN},
+  			#{page_emps,jdbcType=CURSOR,mode=OUT,resultMap=CourierInfoMap,javaType=java.sql.ResultSet}
+  		)}
+	</select>
+	
+	<!-- 3.执行存储过程返回list结果集  -->
+	<resultMap type="java.util.HashMap" id="cursorMap">
+	
+    </resultMap>
+    <select id="testcommon_cursor" parameterType="java.util.Map" statementType="CALLABLE">
+         {call test_page(
+  			#{page_start,jdbcType=INTEGER,mode=IN},
+			#{page_end,jdbcType=INTEGER,mode=IN},
+  			#{page_emps,jdbcType=CURSOR,mode=OUT,resultMap=cursorMap,javaType=java.sql.ResultSet}
+  		)}
+    </select>
+    
+    <!-- 4.执行存储过程返回map对象  -->
+    <select id="testcommon_cursor1" parameterType="java.util.Map" statementType="CALLABLE">
+         {call test_page(
+  			#{page_start,jdbcType=INTEGER,mode=IN},
+			#{page_end,jdbcType=INTEGER,mode=IN},
+  			#{page_emps,jdbcType=CURSOR,mode=OUT,resultMap=cursorMap,javaType=java.sql.ResultSet}
+  		)}
+    </select>
+    
+    <!-- 5.执行存储过程主分页程序prc_querysplit_parent -->
+    <select id="prc_querysplit_parent" parameterType="java.util.Map" statementType="CALLABLE">
+         {call pkg_querysplit.prc_querysplit_parent(
+  			#{sqlscript,jdbcType=VARCHAR,mode=IN},
+  			#{pageSize,jdbcType=INTEGER,mode=IN},
+  			#{pageIndex,jdbcType=INTEGER,mode=IN},
+			#{totalCount,jdbcType=INTEGER,mode=OUT},
+			#{totalPage,jdbcType=INTEGER,mode=OUT},
+  			#{v_cur,jdbcType=CURSOR,mode=OUT,resultMap=cursorMap,javaType=java.sql.ResultSet},
+  			#{prm_appcode,jdbcType=INTEGER,mode=OUT},
+  			#{prm_errmsg,jdbcType=VARCHAR,mode=OUT}
+  		)}
+    </select>
+    
+    <!-- 5.执行存储过程子分页程序prc_querysplit_child -->
+    <select id="prc_querysplit_child" parameterType="java.util.Map" statementType="CALLABLE">
+         {call pkg_querysplit.prc_querysplit_child(
+  			#{sqlscript,jdbcType=VARCHAR,mode=IN},
+  			#{pageSize,jdbcType=INTEGER,mode=IN},
+  			#{pageIndex,jdbcType=INTEGER,mode=IN},
+			#{totalPage,jdbcType=INTEGER,mode=IN},
+  			#{v_cur,jdbcType=CURSOR,mode=OUT,resultMap=cursorMap,javaType=java.sql.ResultSet},
+  			#{prm_appcode,jdbcType=INTEGER,mode=OUT},
+  			#{prm_errmsg,jdbcType=VARCHAR,mode=OUT}
+  		)}
+    </select>
+
+	<select id="PRC_YANPTEST" parameterType="java.util.Map" statementType="CALLABLE">
+        {call PRC_YANPTEST(
+  			#{PRM_AAB001,jdbcType=VARCHAR,mode=IN},
+  			#{PRM_COUNT,jdbcType=NUMERIC,mode=IN},
+  			#{PRM_APPCODE,jdbcType=NUMERIC,mode=OUT},
+  			#{PRM_ERRORMSG,jdbcType=VARCHAR,mode=OUT})
+  		}
+    </select>
+
+	<select id="executeProc" parameterType="java.util.Map" statementType="CALLABLE">
+         ${sql}
+    </select>
+
+</mapper>

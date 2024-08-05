@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyt.project.yw.student.mapper.TBxwStudentWwxMapper">
+
+	<resultMap type="com.xyt.project.yw.student.domain.TBxwStudentWwx" id="TBxwStudentWwxResult">
+		<result property="id"    column="id"    />
+		<result property="xh"    column="xh"    />
+		<result property="xm"    column="xm"    />
+		<result property="xb"    column="xb"    />
+		<result property="csrq"    column="csrq"    />
+		<result property="tBxwMajorWwxId"    column="t_bxw_major_wwx_id"    />
+	</resultMap>
+	
+	<resultMap type="com.xyt.project.yw.student.domain.TBxwStudentWwx" id="TBxwStudentWwxListResult">
+		<result property="id"    column="id"    />
+		<result property="xh"    column="xh"    />
+		<result property="xm"    column="xm"    />
+		<result property="xb"    column="xb"    />
+		<result property="csrq"    column="csrq"    />
+		<result property="tBxwMajorWwxId"    column="t_bxw_major_wwx_id"    />
+		<association property="tBxwMajorWwx">
+		<result property="id"    column="t_bxw_major_wwx_id"    />
+		<result property="zybh"    column="zybh"    />
+		<result property="zymc"    column="zymc"    />
+		</association>
+	</resultMap>
+
+	<sql id="selectTBxwStudentWwxVo">
+		select id, xh, xm, xb, csrq, t_bxw_major_wwx_id from t_bxw_student_wwx
+	</sql>
+
+	<select id="selectTBxwStudentWwxList" parameterType="com.xyt.project.yw.student.domain.TBxwStudentWwx" resultMap="TBxwStudentWwxListResult">
+		select stu.id as id,xh,xm,xb,csrq,t_bxw_major_wwx_id,major.zybh as zybh,major.zymc as zymc
+         from t_bxw_student_wwx stu,t_bxw_major_wwx major
+		
+		<where>
+		    stu.t_bxw_major_wwx_id=major.id
+			<if test="xh != null  and xh != ''"> and xh = #{xh}</if>
+			<if test="xm != null  and xm != ''"> and xm like concat(concat('%', #{xm}), '%')</if>
+			<if test="xb != null  and xb != ''"> and xb = #{xb}</if>
+			<if test="csrq != null "> and csrq = #{csrq}</if>
+			<if test="tBxwMajorWwxId != null  and tBxwMajorWwxId != ''"> and t_bxw_major_wwx_id like concat(concat('%', #{tBxwMajorWwxId}), '%')</if>
+		</where>
+	</select>
+
+	<select id="selectTBxwStudentWwxById" parameterType="java.lang.String" resultMap="TBxwStudentWwxResult">
+		<include refid="selectTBxwStudentWwxVo"/>
+		where id = #{id}
+	</select>
+
+	<insert id="insertTBxwStudentWwx" parameterType="com.xyt.project.yw.student.domain.TBxwStudentWwx">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+			SELECT seq_t_bxw_student_wwx.NEXTVAL as id FROM DUAL
+		</selectKey>
+		insert into t_bxw_student_wwx
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="xh != null and xh != ''">xh,</if>
+			<if test="xm != null and xm != ''">xm,</if>
+			<if test="xb != null and xb != ''">xb,</if>
+			<if test="csrq != null">csrq,</if>
+			<if test="tBxwMajorWwxId != null and tBxwMajorWwxId != ''">t_bxw_major_wwx_id,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="xh != null and xh != ''">#{xh},</if>
+			<if test="xm != null and xm != ''">#{xm},</if>
+			<if test="xb != null and xb != ''">#{xb},</if>
+			<if test="csrq != null">#{csrq},</if>
+			<if test="tBxwMajorWwxId != null and tBxwMajorWwxId != ''">#{tBxwMajorWwxId},</if>
+		</trim>
+	</insert>
+
+	<update id="updateTBxwStudentWwx" parameterType="com.xyt.project.yw.student.domain.TBxwStudentWwx">
+		update t_bxw_student_wwx
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="xh != null and xh != ''">xh = #{xh},</if>
+			<if test="xm != null and xm != ''">xm = #{xm},</if>
+			<if test="xb != null and xb != ''">xb = #{xb},</if>
+			<if test="csrq != null">csrq = #{csrq},</if>
+			<if test="tBxwMajorWwxId != null and tBxwMajorWwxId != ''">t_bxw_major_wwx_id = #{tBxwMajorWwxId},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteTBxwStudentWwxById" parameterType="com.xyt.project.yw.student.domain.TBxwStudentWwx">
+        delete from t_bxw_student_wwx where id = #{id}
+    </delete>
+
+	<delete id="deleteTBxwStudentWwxByIds" parameterType="java.lang.String">
+		delete from t_bxw_student_wwx where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

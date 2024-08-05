@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyt.project.yw.stucour.mapper.TBxwStucourWwxMapper">
+
+	<resultMap type="com.xyt.project.yw.stucour.domain.TBxwStucourWwx" id="TBxwStucourWwxResult">
+		<result property="id"    column="id"    />
+		<result property="tBxwStudentWwxId"    column="t_bxw_student_wwx_id"    />
+		<result property="tBxwCourseWwxId"    column="t_bxw_course_wwx_id"    />
+	</resultMap>
+	
+	<resultMap type="com.xyt.project.yw.course.domain.TBxwCourseWwx" id="TBxwCourWwxResult">
+		<result property="id"    column="id"    />
+		<result property="kcbh"    column="kcbh"    />
+		<result property="kcmc"    column="kcmc"    />
+		<result property="zjjs"    column="zjjs"    />
+	</resultMap>
+
+	<sql id="selectTBxwStucourWwxVo">
+		select id, t_bxw_student_wwx_id, t_bxw_course_wwx_id from t_bxw_stucour_wwx
+	</sql>
+
+	<select id="selectTBxwStucourWwxList" parameterType="com.xyt.project.yw.stucour.domain.TBxwStucourWwx" resultMap="TBxwStucourWwxResult">
+		<include refid="selectTBxwStucourWwxVo"/>
+		<where>
+			<if test="tBxwStudentWwxId != null  and tBxwStudentWwxId != ''"> and t_bxw_student_wwx_id = #{tBxwStudentWwxId}</if>
+			<if test="tBxwCourseWwxId != null  and tBxwCourseWwxId != ''"> and t_bxw_course_wwx_id = #{tBxwCourseWwxId}</if>
+		</where>
+	</select>
+
+	<select id="selectTBxwStucourWwxById" parameterType="java.lang.String" resultMap="TBxwStucourWwxResult">
+		<include refid="selectTBxwStucourWwxVo"/>
+		where id = #{id}
+	</select>
+
+ <select id="selectTBxwCourseByStudent" parameterType="java.lang.String" resultMap="TBxwCourWwxResult" >
+		
+	select * from t_bxw_course_wwx cour where exists(
+     select 1 from t_bxw_stucour_wwx sc where sc.t_bxw_student_wwx_id=#{id} and sc.t_bxw_course_wwx_id=cour.id
+	)
+		
+
+</select>
+
+
+
+	<insert id="insertTBxwStucourWwx" parameterType="com.xyt.project.yw.stucour.domain.TBxwStucourWwx">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+			SELECT seq_t_bxw_stucour_wwx.NEXTVAL as id FROM DUAL
+		</selectKey>
+		insert into t_bxw_stucour_wwx
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="tBxwStudentWwxId != null">t_bxw_student_wwx_id,</if>
+			<if test="tBxwCourseWwxId != null">t_bxw_course_wwx_id,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="tBxwStudentWwxId != null">#{tBxwStudentWwxId},</if>
+			<if test="tBxwCourseWwxId != null">#{tBxwCourseWwxId},</if>
+		</trim>
+	</insert>
+
+	<update id="updateTBxwStucourWwx" parameterType="com.xyt.project.yw.stucour.domain.TBxwStucourWwx">
+		update t_bxw_stucour_wwx
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="tBxwStudentWwxId != null">t_bxw_student_wwx_id = #{tBxwStudentWwxId},</if>
+			<if test="tBxwCourseWwxId != null">t_bxw_course_wwx_id = #{tBxwCourseWwxId},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteTBxwStucourWwxById" parameterType="com.xyt.project.yw.stucour.domain.TBxwStucourWwx">
+        delete from t_bxw_stucour_wwx where id = #{id}
+    </delete>
+
+	<delete id="deleteTBxwStucourWwxByIds" parameterType="java.lang.String">
+		delete from t_bxw_stucour_wwx where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

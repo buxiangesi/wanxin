@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyt.project.yw.course.mapper.TBxwCourseWwxMapper">
+
+	<resultMap type="com.xyt.project.yw.course.domain.TBxwCourseWwx" id="TBxwCourseWwxResult">
+		<result property="id"    column="id"    />
+		<result property="kcbh"    column="kcbh"    />
+		<result property="kcmc"    column="kcmc"    />
+		<result property="zjjs"    column="zjjs"    />
+	</resultMap>
+
+	<sql id="selectTBxwCourseWwxVo">
+		select id, kcbh, kcmc, zjjs from t_bxw_course_wwx
+	</sql>
+
+	<select id="selectTBxwCourseWwxList" parameterType="com.xyt.project.yw.course.domain.TBxwCourseWwx" resultMap="TBxwCourseWwxResult">
+		<include refid="selectTBxwCourseWwxVo"/>
+		<where>
+			<if test="kcbh != null  and kcbh != ''"> and kcbh = #{kcbh}</if>
+			<if test="kcmc != null  and kcmc != ''"> and kcmc like concat(concat('%', #{kcmc}), '%')</if>
+			<if test="zjjs != null  and zjjs != ''"> and zjjs like concat(concat('%', #{zjjs}), '%')</if>
+		</where>
+	</select>
+
+	<select id="selectTBxwCourseWwxById" parameterType="java.lang.String" resultMap="TBxwCourseWwxResult">
+		<include refid="selectTBxwCourseWwxVo"/>
+		where id = #{id}
+	</select>
+
+	<insert id="insertTBxwCourseWwx" parameterType="com.xyt.project.yw.course.domain.TBxwCourseWwx">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+			SELECT seq_t_bxw_course_wwx.NEXTVAL as id FROM DUAL
+		</selectKey>
+		insert into t_bxw_course_wwx
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="kcbh != null and kcbh != ''">kcbh,</if>
+			<if test="kcmc != null and kcmc != ''">kcmc,</if>
+			<if test="zjjs != null and zjjs != ''">zjjs,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="kcbh != null and kcbh != ''">#{kcbh},</if>
+			<if test="kcmc != null and kcmc != ''">#{kcmc},</if>
+			<if test="zjjs != null and zjjs != ''">#{zjjs},</if>
+		</trim>
+	</insert>
+
+	<update id="updateTBxwCourseWwx" parameterType="com.xyt.project.yw.course.domain.TBxwCourseWwx">
+		update t_bxw_course_wwx
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="kcbh != null and kcbh != ''">kcbh = #{kcbh},</if>
+			<if test="kcmc != null and kcmc != ''">kcmc = #{kcmc},</if>
+			<if test="zjjs != null and zjjs != ''">zjjs = #{zjjs},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteTBxwCourseWwxById" parameterType="com.xyt.project.yw.course.domain.TBxwCourseWwx">
+        delete from t_bxw_course_wwx where id = #{id}
+    </delete>
+
+	<delete id="deleteTBxwCourseWwxByIds" parameterType="java.lang.String">
+		delete from t_bxw_course_wwx where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>
